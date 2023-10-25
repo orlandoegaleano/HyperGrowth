@@ -1,22 +1,23 @@
 import React from 'react';
+import { withNavigation } from 'react-navigation';
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
-const NavBar = () => {
+const NavBar = ({navigation}) => {  
   return(
     <View style={styles.container}>
         
-        <TouchableOpacity onPress={() => {console.log("Home Icon Has been pressed")}}>
-            <Entypo name="home" size={40} color="#000"/>
+        <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
+            <Entypo name='home' size={40} color='#000'/>
         </TouchableOpacity>
 
-        <Ionicons name="logo-bitcoin" size={40} color="#000"/>
+        <Ionicons name='logo-bitcoin' size={40} color='#000'/>
 
-        <TouchableOpacity onPress={() => {console.log("Help Icon Has been pressed")}}>
-            <Entypo name="help-with-circle" size={40} color="#000"/>
+        <TouchableOpacity onPress={() => {navigation.navigate('Help')}}>
+            <Entypo name='help-with-circle' size={40} color='#000'/>
         </TouchableOpacity>
 
         
@@ -37,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NavBar;
+export default withNavigation(NavBar);

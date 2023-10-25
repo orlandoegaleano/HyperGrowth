@@ -2,15 +2,11 @@ import React from 'react';
 import { Text, StyleSheet, View, Button } from 'react-native';
 import NavBar from '../components/NavBar';
 
-const HomeScreen = ({navigation}) => {
+const NonCustomScreen = () => {
   return(
     <View>
       <NavBar/>
-      <Text style={styles.text}>Hello HomeScreen</Text>
-      <Button
-        title={'Add a Routine'}
-        onPress={() => {navigation.navigate('AddRoutine')}}
-      />
+      <Text style={styles.text}>Hello NonCustomScreen</Text>
     </View>
   )
 };
@@ -21,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default NonCustomScreen;
