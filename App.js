@@ -5,6 +5,7 @@ import AddRoutineScreen from "./src/screens/AddRoutineScreen";
 import CustomScreen from "./src/screens/CustomScreen";
 import NonCustomScreen from "./src/screens/NonCustomScreen";
 import HelpScreen from "./src/screens/HelpScreen";
+import WorkoutScreen from "./src/screens/WorkoutScreen";
 
 
 const navigator = createStackNavigator(
@@ -14,6 +15,7 @@ const navigator = createStackNavigator(
     Custom: CustomScreen,
     NonCustom: NonCustomScreen,
     Help: HelpScreen,
+    Workout: WorkoutScreen,
   },
   {
     initialRouteName: "Home",

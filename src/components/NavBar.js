@@ -8,19 +8,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const NavBar = ({navigation}) => {  
   return(
-    <View style={styles.container}>
-        
+    <View style={styles.container}>        
         <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
             <Entypo name='home' size={40} color='#000'/>
         </TouchableOpacity>
-
-        <Ionicons name='logo-bitcoin' size={40} color='#000'/>
-
+            <Ionicons name='logo-bitcoin' size={40} color='#000'/>
         <TouchableOpacity onPress={() => {navigation.navigate('Help')}}>
             <Entypo name='help-with-circle' size={40} color='#000'/>
-        </TouchableOpacity>
-
-        
+        </TouchableOpacity>        
     </View>
   )
 };
