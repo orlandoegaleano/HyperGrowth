@@ -12,6 +12,7 @@ const NavBar = ({navigation}) => {
         <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
             <Entypo name='home' size={40} color='#000'/>
         </TouchableOpacity>
+        {/*This is where our logo will go, Bitcoin logo is just a placeholder for now*/}
             <Ionicons name='logo-bitcoin' size={40} color='#000'/>
         <TouchableOpacity onPress={() => {navigation.navigate('Help')}}>
             <Entypo name='help-with-circle' size={40} color='#000'/>
