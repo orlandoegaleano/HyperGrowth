@@ -27,7 +27,7 @@ const CustomScreen = () => {
             <FlatList
                 style={styles.list} 
                 data={CustomDaysArray} 
-                renderItem={({ item }) => <CustomDay id={item.id} />}  // Render each day using the CustomDay component.
+                renderItem={({ item }) => <CustomDay id={item.id}/>}  // Render each day using the CustomDay component.
                 keyExtractor={item => item.id}
             />
             <View style={{marginBottom: 10, marginTop: 5}}>
