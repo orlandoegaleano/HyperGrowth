@@ -107,9 +107,6 @@ const CustomDay = (props) => {
     );
 };
 
-
-
-
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
