@@ -33,7 +33,7 @@ const YouTubeButton = ({ muscle, exercise, exercises }) => {
         <View>
             {/* Display the 'youtube' icon from the 'Entypo' icon set.*/}
             <TouchableOpacity style={{ flex: 1 }} onPress={handlePress}>
-                <Entypo name='youtube' size={30} color='#000' />
+                <Entypo name='youtube' size={50} color='#000' />
             </TouchableOpacity>
 
             {/* Conditional rendering: If 'showVideo' is true, display the 'Modal' component to play the YouTube video.*/}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Linking } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { exercises, muscleGroups } from './exercises';
 import YouTubeButton from './YouTubeButton';
 
@@ -64,7 +63,7 @@ const CustomDay = (props) => {
                             <Picker.Item key={group} label={group} value={group}/>
                         ))}
                     </Picker>
-                    <View style={{flexDirection: 'row', alignItems: 'center',}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginRight: 5}}>
                         {/* Another Picker component, this time for selecting an exercise associated with the chosen muscle group.
                         It's dynamically populated based on the previously selected muscle group.*/}
                         <Picker
@@ -114,8 +113,7 @@ const CustomDay = (props) => {
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        margin: 5,
-        
+        margin: 5,        
     },
     picker: {
         borderWidth: 1,
