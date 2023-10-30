@@ -40,9 +40,8 @@ const YouTubeButton = ({ muscle, exercise, exercises }) => {
             {showVideo && (
                 <Modal
                     transparent={true}
-                    animationType="slide"
+                    animationType="fade"
                     visible={showVideo}
-                    onRequestClose={() => setShowVideo(false)}
                 >
                     <View style={styles.modalView}>
                         {/* The 'YoutubePlayer' component plays the YouTube video.*/}
