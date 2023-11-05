@@ -7,7 +7,7 @@ const HelpScreen = () => {
     { question: 'Question 1', answer: 'Answer 1', isCollapsed: true },
     { question: 'Question 2', answer: 'Answer 2', isCollapsed: true },
     // Add more questions, answers, and isCollapsed properties as needed
-    //This is just for testing until we get everything else is done.
+    //This is just for testing until we get everything else done.
   ];
 
   const [questions, setQuestions] = useState(initialData);
