@@ -11,10 +11,11 @@ const HelpScreen = () => {
     // Add more questions, answers, and isCollapsed properties as needed
     // This is just for testing until we get everything else done.
   ];
-
+  // Use the useState hook to manage the FAQ data and the active tab state
   const [questions, setQuestions] = useState(initialData);
   const [activeTab, setActiveTab] = useState('FAQ'); // 'FAQ' or 'GeneralInformation'
 
+  // Function to toggle the collapse state of a FAQ item
   const toggleCollapse = (index) => {
     const updatedQuestions = [...questions];
     updatedQuestions[index].isCollapsed = !updatedQuestions[index].isCollapsed;
