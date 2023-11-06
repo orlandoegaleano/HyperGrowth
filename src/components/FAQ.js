@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
+//FAQ receives props for questions, toggleCollapse function, and styles
 const FAQ = ({ questions, toggleCollapse, styles }) => {
   return (
     <View>
