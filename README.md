@@ -7,3 +7,10 @@ Change Directory: Navigate to the project directory using cd /path/to/project-di
 Install Dependencies: Execute 'npm install' to install the necessary dependencies.
 
 Start the Application: Run 'npm start' to launch the application.
+
+
+
+
+
+
+Login Screen Icon obtained from 'https://www.pngitem.com/download/biRhbx_transparent-weights-png-weight-lifting-icon-png-png/'
