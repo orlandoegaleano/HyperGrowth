@@ -6,10 +6,14 @@ import CustomScreen from "./src/screens/CustomScreen";
 import NonCustomScreen from "./src/screens/NonCustomScreen";
 import HelpScreen from "./src/screens/HelpScreen";
 import WorkoutScreen from "./src/screens/WorkoutScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import SignUpScreen from "./src/screens/SignUpScreen";
 
 
 const navigator = createStackNavigator(
   {
+    Login: LoginScreen,
+    SignUp: SignUpScreen,
     Home: HomeScreen,
     AddRoutine: AddRoutineScreen,
     Custom: CustomScreen,
@@ -18,7 +22,7 @@ const navigator = createStackNavigator(
     Workout: WorkoutScreen,
   },
   {
-    initialRouteName: "Home",
+    initialRouteName: "Login",
     defaultNavigationOptions: {
       title: "App",
     },
