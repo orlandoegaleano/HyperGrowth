@@ -42,13 +42,16 @@ const styles = StyleSheet.create ({
         textAlign: 'center',
         fontSize: 50,
         marginTop: 30,
-        marginBottom: 90
+        marginBottom: 90,
     },
 
     rowContainer:{
         flexDirection: 'row',
-        marginHorizontal: -30,
-        alignContent: 'stretch'
+        //marginLeft: -2,
+        //marginHorizontal: -30,
+        justifyContent: 'space-around',
+        //justifyContent: 'space-evenly',
+        
     },
 
 

@@ -18,9 +18,9 @@ const InputBox = (props) => {
 
 const styles = StyleSheet.create ({
     container: {
-        paddingHorizontal: 50,
-        borderWidth: 1,
-        borderColor: 'red',
+        //paddingHorizontal: 50,
+        // borderWidth: 1,
+        // borderColor: 'red',
     },
 
     textInput: {
@@ -30,6 +30,9 @@ const styles = StyleSheet.create ({
         borderWidth: 1,
         marginBottom: 30,
         paddingVertical: 5,
+        paddingHorizontal: 20,
+        marginHorizontal: 50
+
     }
 });
 
