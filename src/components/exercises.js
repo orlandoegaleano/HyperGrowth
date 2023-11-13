@@ -1,5 +1,5 @@
 // Each muscle group has an array of exercise objects.
-// Each exercise object has a name and a link.
+// Each exercise object has a name and a link prop that corresponds to a YouTube WatchID.
 const exercises = {    
     Chest: [
         { name: 'Bench Press', link: 'gMgvBspQ9lk' },

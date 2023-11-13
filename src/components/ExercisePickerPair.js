@@ -55,7 +55,6 @@ const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
                 <YouTubeButton
                     muscle={selectedMuscleGroup.muscle}
                     exercise={selectedMuscleGroup.exercise}
-                    exercises={exercises}
                 />
             </View>
         </View>

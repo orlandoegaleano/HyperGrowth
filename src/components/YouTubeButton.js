@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity, } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import YoutubePlayer from 'react-native-youtube-iframe';
+import {exercises} from './exercises';
 
 // exercises is the const exercises.js (key: muscle, value: exercise) from component folder
-const YouTubeButton = ({ muscle, exercise, exercises }) => {
+const YouTubeButton = ({ muscle, exercise }) => {
     
     // Creating a state variable 'showVideo' to manage the visibility of the video player. Initialize it as false.
     const [showVideo, setShowVideo] = useState(false);    
