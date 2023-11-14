@@ -68,20 +68,20 @@ const updateExerciseDetails = dispatch => {
 //Initializing mock data for easier testing
 const initialState = {
     days: [
-      {
-        id: '1',
-        muscleGroups: [
-          { muscle: 'Chest', exercise: 'Bench Press' },
-          { muscle: 'Back', exercise: 'Normal Grip Pullup' },
-        ],
-      },
-      {
-        id: '2',
-        muscleGroups: [
-          { muscle: 'Glutes', exercise: 'Machine Glute Kickback' },
-          { muscle: 'Quads', exercise: 'Leg Press' },
-        ],
-      },
+        {
+            id: '1',
+            muscleGroups: [
+            { muscle: 'Chest', exercise: 'Bench Press' },
+            { muscle: 'Back', exercise: 'Normal Grip Pullup' },
+            ],
+        },
+        {
+            id: '2',
+            muscleGroups: [
+            { muscle: 'Glutes', exercise: 'Machine Glute Kickback' },
+            { muscle: 'Quads', exercise: 'Leg Press' },
+            ],
+        },
     ],
   };
 

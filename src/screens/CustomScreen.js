@@ -56,7 +56,7 @@ const CustomScreen = ({ navigation }) => {
                   disabled={days.length <= 1} 
                 />
                 <Button 
-                  title="Save Custom Days" 
+                  title="Save Mesocycle" 
                   onPress={() => navigation.navigate("Workout")}
                 />
             </View>   
