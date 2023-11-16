@@ -15,8 +15,7 @@ const mesocycleReducer = (state, action) => {
         case 'update_day':
             return {
                 ...state,
-                days: state.days.map((day) => day.id === action.payload.id ? action.payload : day
-                )
+                days: state.days.map((day) => day.id === action.payload.id ? action.payload : day )
             };
         case 'update_exercise_details':
             return {
@@ -35,9 +34,77 @@ const mesocycleReducer = (state, action) => {
                 }
                 return day;
                 }),
+            };
+        case 'generate_mesocycle':
+            return {...state,
+                sixWeekCycle: action.payload
             };        
         default:
             return state;
+    };
+};
+
+const deepCopyDay = (day, weekNumber) => {
+    return {
+        title: day.id,
+        id: Math.floor(Math.random * 9999),
+        muscleGroups: day.muscleGroups.map((group) => ({
+            muscle: group.muscle,
+            exercise: group.exercise,
+            weight: group.weight,
+            sets: group.sets,
+        }))
+    };
+
+};
+const applyProgressiveOverload = (currentWeekRoutine, previousWeekRoutine) => {
+    // Iterating over each day in the week
+    currentWeekRoutine.forEach((day, index) => {
+
+        const previousWeekDay = previousWeekRoutine[index];
+  
+      // Iterating over each exercise of the day
+      // Each "group" in the array muscleGroups contains props: muscle, exercise, weight, and sets
+      day.muscleGroups.forEach(group => {
+
+        const previousExercise = previousWeekDay.muscleGroups.find(prevWeekGroup => prevWeekGroup.exercise === group.exercise);
+
+        // Implementing logic to calculate changes to weight or sets for progressive overloading
+        if (previousExercise) {
+  
+          group.weight = calculateNewWeight(previousExercise.weight);
+          group.sets = calculateNewSets(previousExercise.sets);
+        }
+      });
+    });
+  
+    return currentWeekRoutine;
+  };
+  
+const calculateNewWeight = (previousWeight) => {
+    return Number(previousWeight) + 5;
+
+};
+const calculateNewSets = (previousSets) => {
+    return Number(previousSets) + 1;
+
+};
+
+const generateMesocycle = dispatch => {
+    return (initialWeek) => {
+
+        let sixWeekCycle = [];
+
+        for (let week = 1; week <=6; week++) {
+            let weekRoutine = initialWeek.map((day) => deepCopyDay(day, week));
+
+            if (week > 1){
+                applyProgressiveOverload(weekRoutine, sixWeekCycle[ week - 2 ]);
+            };
+
+            sixWeekCycle.push(weekRoutine);
+        };
+        dispatch({type: 'generate_mesocycle', payload: sixWeekCycle});
     };
 };
 
@@ -71,22 +138,23 @@ const initialState = {
         {
             id: '1',
             muscleGroups: [
-            { muscle: 'Chest', exercise: 'Bench Press' },
-            { muscle: 'Back', exercise: 'Normal Grip Pullup' },
+            { muscle: 'Chest', exercise: 'Bench Press', weight: '100', sets: '2' },
+            { muscle: 'Back', exercise: 'Normal Grip Pullup', weight: '150', sets: '2' },
             ],
         },
         {
             id: '2',
             muscleGroups: [
-            { muscle: 'Glutes', exercise: 'Machine Glute Kickback' },
-            { muscle: 'Quads', exercise: 'Leg Press' },
+            { muscle: 'Glutes', exercise: 'Machine Glute Kickback', weight: '65', sets: '2' },
+            { muscle: 'Quads', exercise: 'Leg Press', weight: '120', sets: '2' },
             ],
         },
     ],
+    sixWeekCycle: [],
   };
 
 export const { Context, Provider } = createDataContext(
     mesocycleReducer,
-    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, updateExerciseDetails: updateExerciseDetails },
+    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, updateExerciseDetails: updateExerciseDetails, generateMesocycle: generateMesocycle },
     initialState
 );

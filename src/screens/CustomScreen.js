@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { View, FlatList, Button, StyleSheet, Alert } from 'react-native';  
 import CustomDay from '../components/CustomDay';
 import { Context as MesocycleContext } from '../context/MesocycleContext'; // Import your context
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const CustomScreen = ({ navigation }) => {    
     // Use the context to get state and actions.
-    const { state: { days }, addDay, removeDay } = useContext(MesocycleContext);
+    const { state: { days }, addDay, removeDay, generateMesocycle } = useContext(MesocycleContext);
     
     // Add a new day using the context action.
     const handleAddDay = () => {
@@ -22,19 +22,6 @@ const CustomScreen = ({ navigation }) => {
             removeDay(days[days.length - 1].id);
         }
     };
-
-    // // Save the custom days array to AsyncStorage.
-    // const savedays = async () => {
-    //   try {
-    //     const jsonValue = JSON.stringify(days);
-    //     await AsyncStorage.setItem('@custom_days', jsonValue);
-    //     Alert.alert('Custom days saved successfully!');
-    //     navigation.navigate("Workout");
-    //   } catch (e) {
-    //     Alert.alert('Failed to save custom days.');
-    //     console.error(e);
-    //   }
-    // };
 
     return (
         <View style={styles.container}>          
@@ -57,7 +44,7 @@ const CustomScreen = ({ navigation }) => {
                 />
                 <Button 
                   title="Save Mesocycle" 
-                  onPress={() => navigation.navigate("Workout")}
+                  onPress={() => {generateMesocycle(days); navigation.navigate("Workout")}}
                 />
             </View>   
         </View>

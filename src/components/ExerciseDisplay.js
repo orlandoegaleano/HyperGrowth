@@ -6,11 +6,17 @@ import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 
 
-const ExerciseDisplay = ({id, muscle, exercise}) => {
-    const [selectedWeight, setSelectedWeight] = useState('5');
-    const [sets, setSets] = useState(2);
-    const [repsPerSet, setRepsPerSet] = useState(Array(sets).fill('1'));
+const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
+    const [selectedWeight, setSelectedWeight] = useState( propWeight || '5' );
+    const [sets, setSets] = useState( propSets || 2 );
+    const [repsPerSet, setRepsPerSet] = useState(Array.from({ length: propSets || 2 }, () => '1'));
     const { updateExerciseDetails } = useContext(MesocycleContext);
+    
+    // Using useEffect to re-render screen to reflect proper amount of rows
+    // for rep input whenever sets changes.
+    useEffect(() => {
+        setRepsPerSet(Array.from({ length: propSets }, () => '1'));
+    }, [propSets]);
 
 
     //Populating the Picker options
