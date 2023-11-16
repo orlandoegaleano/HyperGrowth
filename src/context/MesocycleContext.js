@@ -42,7 +42,10 @@ const mesocycleReducer = (state, action) => {
                                     ...day,
                                     muscleGroups: day.muscleGroups.map(group => {
                                         if (group.exercise === action.payload.exercise) {
-                                            return { ...group, ...action.payload.details };
+                                            return {
+                                                    ...group, 
+                                                    ...action.payload.details 
+                                            };
                                         }
                                         return group;
                                     })

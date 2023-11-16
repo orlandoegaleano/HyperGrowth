@@ -9,43 +9,12 @@ import findPreviousExerciseData from '../helpers/findPreviousExerciseData';
 const WorkoutScreen = () => {
 
   const { state: { mesocycle } } = useContext(MesocycleContext);
-  //Function to print the muscleGroups to check if the exercise details are being updated properly
-  // const checkDaysData = () => {
-  //   state.days.forEach((day) => {
-  //     console.log(`${day.title}:`);
-  //     day.muscleGroups.forEach((group, groupIndex) => {
-  //       console.log(`  Muscle Group ${groupIndex + 1}:`, group);
-  //     });
-  //   });
-  // };
-
-  // const checkMesocycleData = () => {
-
-  //   mesocycle.forEach((week, weekIndex) => {
-  //     console.log(`Week ${weekIndex + 1}`);
-  //     week.forEach((day) => {
-  //       console.log(`${day.id}`);
-  //       day.muscleGroups.forEach((group) => {
-  //         console.log(`Muscle Group: ${group.muscle}`);
-  //         console.log(`Exercise: ${group.exercise}`);
-  //         console.log(`Weight ${group.weight}`);
-  //         console.log(`Number of Sets: ${group.sets}`);
-  //       });
-  //     });
-  //   });
-  // };
 
 
   return(
     <View style={styles.container}>
 
       <NavBar/>
-
-      {/* <Text style={styles.text}>Hello WorkoutScreen</Text>
-      <Button title="Check Days Data" onPress={checkDaysData}/>
-      <Button title="Generate Mesocycle" onPress={() => generateMesocycle(state.days)}/>
-      <Button title="Check Mesocycle Data" onPress={checkMesocycleData}/> */}
-
 
       <FlatList
         data={mesocycle}
@@ -69,9 +38,7 @@ const WorkoutScreen = () => {
                   let previousRepCounts = null
                   if (weekIndex > 0){
                     const previousExerciseData = findPreviousExerciseData(mesocycle, weekIndex, day.title, group.exercise);
-                    //console.log("This is previousExerciseData", previousExerciseData);
-                    previousRepCounts = previousExerciseData ? previousExerciseData.repCounts : null;
-                    console.log("This is the previousRepCounts", previousRepCounts);
+                    previousRepCounts = previousExerciseData.repCounts;
                   }
                   return (
                     <ExerciseDisplay

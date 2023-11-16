@@ -30,12 +30,6 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
     };
 
     const handleSaveExerciseDetails = () => {
-        // const updatedDetails = {
-        //     weight: selectedWeight,
-        //     sets: sets,
-        //     repCounts: repCounts,
-        // };
-        //console.log(`**************************** ${repCounts}`)
         updateExerciseDetails(weekIndex, dayTitle, exercise, {
           weight: selectedWeight,
           sets: sets,
@@ -95,7 +89,6 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
                     ))}
                 </View>
                 <View>
-                    {/* Left off here. TODO: Get previous rep count working properly */}
                     <Text style={styles.dataText}>Previous</Text>
                     {previousRepCounts ? 
                         previousRepCounts.map((reps, index) => (
