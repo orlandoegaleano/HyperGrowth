@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import ExercisePickerPair from './ExercisePickerPair';
-import { Context as MesocycleContext } from '../context/MesocycleContext';
+import { Context as DayContext } from '../context/DayContext';
 
 const CustomDay = ({ title, id }) => {
-    const { updateDay } = useContext(MesocycleContext);
+    const { updateDay } = useContext(DayContext);
     const [selectedMuscleGroups, setSelectedMuscleGroups] = useState([{}]);
 
     const addExercisePair = () => {

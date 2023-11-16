@@ -9,6 +9,7 @@ import WorkoutScreen from "./src/screens/WorkoutScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import { Provider as MesocycleProvider } from './src/context/MesocycleContext';
+import { Provider as DayProvider } from './src/context/DayContext';
 
 const navigator = createStackNavigator(
   {
@@ -22,7 +23,7 @@ const navigator = createStackNavigator(
     Workout: WorkoutScreen,
   },
   {
-    initialRouteName: "Workout",
+    initialRouteName: "Custom",
     defaultNavigationOptions: {
       title: "App",
     },
@@ -34,7 +35,10 @@ const App = createAppContainer(navigator);
 export default () => {
   return (
     <MesocycleProvider>
-      <App/>
+      <DayProvider>
+
+        <App/>
+      </DayProvider>
     </MesocycleProvider>
   );
 };

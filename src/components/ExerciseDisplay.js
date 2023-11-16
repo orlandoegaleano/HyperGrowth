@@ -5,7 +5,6 @@ import YouTubeButton from './YouTubeButton';
 import { Picker } from '@react-native-picker/picker'; 
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 
-
 const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts}) => {
     const [selectedWeight, setSelectedWeight] = useState( (propWeight || '5').toString() );
     const [sets, setSets] = useState( Number(propSets || 2)  );
@@ -14,9 +13,9 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
     
     // Using useEffect to re-render screen to reflect proper amount of rows
     // for rep input whenever sets changes such as the user manually adding or removing a set.
-    useEffect(() => {
-        setrepCounts(Array.from({ length: propSets }, () => '1'));
-    }, [propSets]);
+    // useEffect(() => {
+    //     setrepCounts(Array.from({ length: propSets }, () => '1'));
+    // }, [propSets]);
 
 
     // Populating the Picker options
