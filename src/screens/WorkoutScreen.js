@@ -11,7 +11,7 @@ const WorkoutScreen = () => {
   //Function to print the muscleGroups to check if the exercise details are being updated properly
   const checkDaysData = () => {
     state.days.forEach((day) => {
-      console.log(`Day ${day.id}:`);
+      console.log(`${day.title}:`);
       day.muscleGroups.forEach((group, groupIndex) => {
         console.log(`  Muscle Group ${groupIndex + 1}:`, group);
       });
@@ -56,9 +56,10 @@ const WorkoutScreen = () => {
             </View>
             {week.map((day, dayIndex) => {
               return <View key={dayIndex}>
-              <Text style={styles.dayHeader}>Day {day.title}</Text>
+              <Text style={styles.dayHeader}>{day.title}</Text>
               {day.muscleGroups.map((group) => {
                 return <ExerciseDisplay
+                  key={`${weekIndex}${dayIndex}${group.exercise}`}
                   id={day.id}
                   muscle={group.muscle}
                   exercise={group.exercise}

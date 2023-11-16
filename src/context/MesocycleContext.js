@@ -15,8 +15,21 @@ const mesocycleReducer = (state, action) => {
         case 'update_day':
             return {
                 ...state,
-                days: state.days.map((day) => day.id === action.payload.id ? action.payload : day )
-            };
+                days: state.days.map((day) => {
+                if (day.id === action.payload.id) {
+                    // If the payload includes muscleGroups, update them
+                    if (action.payload.muscleGroups) {
+                    return {
+                        ...day,
+                        muscleGroups: action.payload.muscleGroups,
+                    };
+                    }
+                    // Otherwise, return the updated day as is
+                    return action.payload;
+                }
+                return day;
+                }),
+            };              
         case 'update_exercise_details':
             return {
                 ...state,
@@ -46,13 +59,13 @@ const mesocycleReducer = (state, action) => {
 
 const deepCopyDay = (day) => {
     return {
-        title: day.id,
-        id: Math.floor(Math.random * 9999),
+        title: day.title,
+        id: Math.floor(Math.random() * 9999),
         muscleGroups: day.muscleGroups.map((group) => ({
             muscle: group.muscle,
             exercise: group.exercise,
-            weight: group.weight,
-            sets: group.sets,
+            weight: 5,
+            sets: 2,
         }))
     };
 
@@ -63,18 +76,18 @@ const applyProgressiveOverload = (currentWeekRoutine, previousWeekRoutine) => {
 
         const previousWeekDay = previousWeekRoutine[index];
   
-      // Iterating over each exercise of the day
-      // Each "group" in the array muscleGroups contains props: muscle, exercise, weight, and sets
-      day.muscleGroups.forEach(group => {
+        // Iterating over each exercise of the day
+        // Each "group" in the array muscleGroups contains props: muscle, exercise, weight, and sets
+        day.muscleGroups.forEach(group => {
 
-        const previousExercise = previousWeekDay.muscleGroups.find(prevWeekGroup => prevWeekGroup.exercise === group.exercise);
+            const previousExercise = previousWeekDay.muscleGroups.find(prevWeekGroup => prevWeekGroup.exercise === group.exercise);
 
-        // Implementing logic to calculate changes to weight or sets for progressive overloading
-        if (previousExercise) {
-  
-          group.weight = calculateNewWeight(previousExercise.weight);
-          group.sets = calculateNewSets(previousExercise.sets);
-        }
+            // Implementing logic to calculate changes to weight or sets for progressive overloading
+            if (previousExercise) {
+    
+            group.weight = calculateNewWeight(previousExercise.weight);
+            group.sets = calculateNewSets(previousExercise.sets);
+            }
       });
     });
   
@@ -132,29 +145,34 @@ const updateExerciseDetails = dispatch => {
     };
   };
 
+
+  
+
 //Initializing mock data for easier testing
 const initialState = {
     days: [
         {
-            id: '1',
-            muscleGroups: [
-            { muscle: 'Chest', exercise: 'Bench Press', weight: '100', sets: '2' },
-            { muscle: 'Back', exercise: 'Normal Grip Pullup', weight: '150', sets: '2' },
+            title: "Day 1",
+            id: Math.floor(Math.random() * 9999),
+            muscleGroups: [ 
+            // { muscle: 'Chest', exercise: 'Bench Press', weight: '100', sets: '2' },
+            // { muscle: 'Back', exercise: 'Normal Grip Pullup', weight: '150', sets: '2' },
             ],
         },
-        {
-            id: '2',
-            muscleGroups: [
-            { muscle: 'Glutes', exercise: 'Machine Glute Kickback', weight: '65', sets: '2' },
-            { muscle: 'Quads', exercise: 'Leg Press', weight: '120', sets: '2' },
-            ],
-        },
+        // {
+        //     title: "Day 2",
+        //     id: Math.floor(Math.random() * 9999),
+        //     muscleGroups: [
+        //     { muscle: 'Glutes', exercise: 'Machine Glute Kickback', weight: '65', sets: '2' },
+        //     { muscle: 'Quads', exercise: 'Leg Press', weight: '120', sets: '2' },
+        //     ],
+        // },
     ],
     sixWeekCycle: [],
   };
 
 export const { Context, Provider } = createDataContext(
     mesocycleReducer,
-    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, updateExerciseDetails: updateExerciseDetails, generateMesocycle: generateMesocycle },
+    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, updateExerciseDetails: updateExerciseDetails, generateMesocycle: generateMesocycle,  },
     initialState
 );

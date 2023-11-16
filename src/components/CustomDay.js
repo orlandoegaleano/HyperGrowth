@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import ExercisePickerPair from './ExercisePickerPair';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 
-const CustomDay = ({ id }) => {
+const CustomDay = ({ title, id }) => {
     const { updateDay } = useContext(MesocycleContext);
     const [selectedMuscleGroups, setSelectedMuscleGroups] = useState([{}]);
 
@@ -29,7 +29,7 @@ const CustomDay = ({ id }) => {
     return (
         <View style={styles.container}>
             <View style={styles.dayHeader}>
-                <Text style={styles.dayTitle}>Day {id}</Text>
+                <Text style={styles.dayTitle}>{title}</Text>
             </View>
             {selectedMuscleGroups.map((muscleGroup, index) => (
                 <View key={index} style={styles.exerciseContainer}>

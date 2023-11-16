@@ -11,7 +11,11 @@ const CustomScreen = ({ navigation }) => {
     // Add a new day using the context action.
     const handleAddDay = () => {
         // Create a new day with a unique id.
-        const newDay = { id: String(days.length + 1) };
+        const newDay = { 
+          title: `Day ${days.length + 1}`, 
+          id: Math.floor(Math.random() * 9999), 
+          muscleGroups: [],  
+        };
         addDay(newDay);
     };
 
@@ -28,7 +32,7 @@ const CustomScreen = ({ navigation }) => {
             <FlatList
                 style={styles.list} 
                 data={days} 
-                renderItem={({ item }) => <CustomDay id={item.id}/>}
+                renderItem={({ item }) => <CustomDay title={item.title} id={item.id}/>}
                 keyExtractor={item => item.id}
             />
             <View style={styles.buttonView}>
