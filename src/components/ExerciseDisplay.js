@@ -13,7 +13,7 @@ const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
     const { updateExerciseDetails } = useContext(MesocycleContext);
     
     // Using useEffect to re-render screen to reflect proper amount of rows
-    // for rep input whenever sets changes.
+    // for rep input whenever sets changes such as the user manually adding or removing a set.
     useEffect(() => {
         setRepsPerSet(Array.from({ length: propSets }, () => '1'));
     }, [propSets]);
