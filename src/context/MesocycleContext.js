@@ -57,19 +57,6 @@ const mesocycleReducer = (state, action) => {
     };
 };
 
-const deepCopyDay = (day) => {
-    return {
-        title: day.title,
-        id: Math.floor(Math.random() * 9999),
-        muscleGroups: day.muscleGroups.map((group) => ({
-            muscle: group.muscle,
-            exercise: group.exercise,
-            weight: 5,
-            sets: 2,
-        }))
-    };
-
-};
 const applyProgressiveOverload = (currentWeekRoutine, previousWeekRoutine) => {
     // Iterating over each day in the week
     currentWeekRoutine.forEach((day, index) => {
@@ -109,8 +96,18 @@ const generateMesocycle = dispatch => {
         let sixWeekCycle = [];
 
         for (let week = 1; week <=6; week++) {
-            let weekRoutine = initialWeek.map((day) => deepCopyDay(day));
-
+            let weekRoutine = initialWeek.map((day) => ({
+                ...day, 
+                title: day.title,
+                id: Math.floor(Math.random() * 9999),
+                muscleGroups: day.muscleGroups.map((group) => ({
+                    muscle: group.muscle,
+                    exercise: group.exercise,
+                    weight: 5,
+                    sets: 2,
+                }))
+            }));
+            
             if (week > 1){
                 applyProgressiveOverload(weekRoutine, sixWeekCycle[ week - 2 ]);
             };
