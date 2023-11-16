@@ -6,34 +6,40 @@ import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 
 
-const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
+const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts}) => {
     const [selectedWeight, setSelectedWeight] = useState( (propWeight || '5').toString() );
     const [sets, setSets] = useState( Number(propSets || 2)  );
-    const [repsPerSet, setRepsPerSet] = useState(Array.from({ length: propSets || 2 }, () => '1'));
+    const [repCounts, setrepCounts] = useState(Array.from({ length: propSets || 2 }, () => '1'));
     const { updateExerciseDetails } = useContext(MesocycleContext);
     
     // Using useEffect to re-render screen to reflect proper amount of rows
     // for rep input whenever sets changes such as the user manually adding or removing a set.
     useEffect(() => {
-        setRepsPerSet(Array.from({ length: propSets }, () => '1'));
+        setrepCounts(Array.from({ length: propSets }, () => '1'));
     }, [propSets]);
 
 
-    //Populating the Picker options
+    // Populating the Picker options
     const weightOptions = Array.from({ length: (300 - 5) / 5 + 1 }, (_, i) => (5 * i).toString());
     const repOptions = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
 
     const handleRepChange = (itemValue, setIndex) => {
-        const newRepsPerSet = [...repsPerSet];
-        newRepsPerSet[setIndex] = itemValue;
-        setRepsPerSet(newRepsPerSet);
+        const newrepCounts = [...repCounts];
+        newrepCounts[setIndex] = itemValue;
+        setrepCounts(newrepCounts);
     };
 
     const handleSaveExerciseDetails = () => {
-        updateExerciseDetails(id, exercise, {
+        // const updatedDetails = {
+        //     weight: selectedWeight,
+        //     sets: sets,
+        //     repCounts: repCounts,
+        // };
+        //console.log(`**************************** ${repCounts}`)
+        updateExerciseDetails(weekIndex, dayTitle, exercise, {
           weight: selectedWeight,
           sets: sets,
-          repsPerSet: repsPerSet,
+          repCounts: repCounts,
         });
       };
 
@@ -74,10 +80,10 @@ const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
                 </View>
                 <View>
                     <Text style={styles.dataText}>Reps - 3RIR</Text>
-                    {repsPerSet.map((rep, index) => (
+                    {repCounts.map((reps, index) => (
                     <View key={index}>
                         <Picker
-                            selectedValue={rep}
+                            selectedValue={reps}
                             style={styles.picker}
                             onValueChange={(itemValue) => handleRepChange(itemValue, index)}
                         >
@@ -89,7 +95,15 @@ const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
                     ))}
                 </View>
                 <View>
+                    {/* Left off here. TODO: Get previous rep count working properly */}
                     <Text style={styles.dataText}>Previous</Text>
+                    {previousRepCounts ? 
+                        previousRepCounts.map((reps, index) => (
+                            <Text key={index}>{reps}</Text>
+                        ))
+                        :
+                        null
+                    }
                 </View>
             </View>
 

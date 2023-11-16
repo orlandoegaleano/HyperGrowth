@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { View, FlatList, Button, StyleSheet, Alert } from 'react-native';  
 import CustomDay from '../components/CustomDay';
-import { Context as MesocycleContext } from '../context/MesocycleContext'; // Import your context
+import { Context as MesocycleContext } from '../context/MesocycleContext'; 
 
 
 const CustomScreen = ({ navigation }) => {    

@@ -34,24 +34,29 @@ const mesocycleReducer = (state, action) => {
         case 'update_exercise_details':
             return {
                 ...state,
-                days: state.days.map((day) => {
-                if (day.id === action.payload.dayID) {
-                    return {
-                    ...day,
-                    muscleGroups: day.muscleGroups.map((pair) => {
-                        if (pair.exercise === action.payload.exercise) {
-                        return { ...pair, ...action.payload.details };
-                        }
-                        return pair;
-                    })
-                    };
-                }
-                return day;
-                }),
+                mesocycle: state.mesocycle.map((week, index) => {
+                    if (index === action.payload.weekIndex) {
+                        return week.map(day => {
+                            if (day.title === action.payload.dayTitle) {
+                                return {
+                                    ...day,
+                                    muscleGroups: day.muscleGroups.map(group => {
+                                        if (group.exercise === action.payload.exercise) {
+                                            return { ...group, ...action.payload.details };
+                                        }
+                                        return group;
+                                    })
+                                };
+                            }
+                            return day;
+                        });
+                    }
+                    return week;
+                })
             };
         case 'generate_mesocycle':
             return {...state,
-                sixWeekCycle: action.payload
+                mesocycle: action.payload
             };        
         default:
             return state;
@@ -61,28 +66,27 @@ const mesocycleReducer = (state, action) => {
 const generateMesocycle = dispatch => {
     return (initialWeek) => {
 
-        let sixWeekCycle = [];
+        let mesocycle = [];
 
         for (let week = 1; week <=6; week++) {
             let weekRoutine = initialWeek.map((day) => ({
-                ...day, 
-                title: day.title,
-                id: Math.floor(Math.random() * 9999),
+                ...day,                
+                id: week > 1 ? Math.floor(Math.random() * 9999) : day.id,
                 muscleGroups: day.muscleGroups.map((group) => ({
-                    muscle: group.muscle,
-                    exercise: group.exercise,
+                    ...group,
                     weight: 5,
                     sets: 2,
+                    repCounts: [],
                 }))
             }));
 
             if (week > 1){
-                applyProgressiveOverload(weekRoutine, sixWeekCycle[ week - 2 ]);
+                applyProgressiveOverload(weekRoutine, mesocycle[ week - 2 ]);
             };
 
-            sixWeekCycle.push(weekRoutine);
+            mesocycle.push(weekRoutine);
         };
-        dispatch({type: 'generate_mesocycle', payload: sixWeekCycle});
+        dispatch({type: 'generate_mesocycle', payload: mesocycle});
     };
 };
 
@@ -105,8 +109,8 @@ const updateDay = dispatch => {
 };
 
 const updateExerciseDetails = dispatch => {
-    return (dayID, exercise, details) => {
-      dispatch({ type: 'update_exercise_details', payload: { dayID, exercise, details }});
+    return (weekIndex, dayTitle, exercise, details) => {
+      dispatch({ type: 'update_exercise_details', payload: { weekIndex, dayTitle, exercise, details }});
     };
   }; 
 
@@ -130,7 +134,7 @@ const initialState = {
         //     ],
         // },
     ],
-    sixWeekCycle: [],
+    mesocycle: [],
   };
 
 export const { Context, Provider } = createDataContext(
