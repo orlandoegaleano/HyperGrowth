@@ -7,8 +7,8 @@ import { Context as MesocycleContext } from '../context/MesocycleContext';
 
 
 const ExerciseDisplay = ({id, muscle, exercise, propWeight, propSets}) => {
-    const [selectedWeight, setSelectedWeight] = useState( propWeight || '5' );
-    const [sets, setSets] = useState( propSets || 2 );
+    const [selectedWeight, setSelectedWeight] = useState( propWeight.toString() || '5' );
+    const [sets, setSets] = useState( Number(propSets) || 2 );
     const [repsPerSet, setRepsPerSet] = useState(Array.from({ length: propSets || 2 }, () => '1'));
     const { updateExerciseDetails } = useContext(MesocycleContext);
     

@@ -44,7 +44,7 @@ const mesocycleReducer = (state, action) => {
     };
 };
 
-const deepCopyDay = (day, weekNumber) => {
+const deepCopyDay = (day) => {
     return {
         title: day.id,
         id: Math.floor(Math.random * 9999),
@@ -96,7 +96,7 @@ const generateMesocycle = dispatch => {
         let sixWeekCycle = [];
 
         for (let week = 1; week <=6; week++) {
-            let weekRoutine = initialWeek.map((day) => deepCopyDay(day, week));
+            let weekRoutine = initialWeek.map((day) => deepCopyDay(day));
 
             if (week > 1){
                 applyProgressiveOverload(weekRoutine, sixWeekCycle[ week - 2 ]);
