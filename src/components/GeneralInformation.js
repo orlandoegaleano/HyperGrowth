@@ -4,8 +4,12 @@ import { View, Text } from 'react-native';
 const GeneralInformation = ({ styles }) => {
   return (
     <View>
-      {/* Render your general information content here */}
-      <Text style={styles.generalInfo}>This is the general information content.</Text>
+      <Text style={styles.generalInfoTitle}>HyperGrowth: Customizable Workout App</Text>
+      <Text style={styles.generalInfoContent}>
+        HyperGrowth is a customizable workout app focusing on periodized hypertrophy training.
+        Users can create custom or choose pre-made routines with progressive overloading that changes weekly based on
+        feedback after workouts.
+      </Text>
     </View>
   );
 };
