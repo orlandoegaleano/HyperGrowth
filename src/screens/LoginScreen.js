@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import InputBox from '../components/InputBox';
 
-const LOGO = '../../assets/PngItem_588695.png';
+const LOGO = '../../assets/logo.png';
 const APP_NAME = "HyperGrowth";
 const LOG_IN_BUTTON_TITLE = 'login';
 const NO_ACCOUNT_MSG = "No Account?"

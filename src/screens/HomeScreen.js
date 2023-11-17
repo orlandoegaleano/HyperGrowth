@@ -6,7 +6,7 @@ const HomeScreen = ({navigation}) => {
   return(
     <View>
       <NavBar/>
-      <Text style={styles.text}>Hello HomeScreen</Text>
+      <Text style={styles.text}>Welcome User</Text>
       <Button
         title={'Add a Routine'}
         onPress={() => {navigation.navigate('AddRoutine')}}

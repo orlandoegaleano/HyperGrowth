@@ -23,7 +23,7 @@ const navigator = createStackNavigator(
     Workout: WorkoutScreen,
   },
   {
-    initialRouteName: "Custom",
+    initialRouteName: "Login",
     defaultNavigationOptions: {
       title: "App",
     },
