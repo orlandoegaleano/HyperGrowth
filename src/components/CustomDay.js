@@ -10,20 +10,20 @@ const CustomDay = ({ title, id }) => {
     const addExercisePair = () => {
         const updatedMuscleGroups = [...selectedMuscleGroups, {}];
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     const removeExercisePair = (indexToRemove) => {
         const updatedMuscleGroups = selectedMuscleGroups.filter((_, index) => index !== indexToRemove);
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     const handleUpdate = (index, key, value) => {
         const updatedMuscleGroups = [...selectedMuscleGroups];
         updatedMuscleGroups[index][key] = value;
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     return (
