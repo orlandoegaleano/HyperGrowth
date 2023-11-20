@@ -61,11 +61,15 @@ const LoginScreen = (props) => {
             <InputBox
                 backGroundText = 'email'
                 textShowBoolean = {false}
+                text = {email}
+                setter = {setEmail}
             />
 
             <InputBox
                 backGroundText = 'password'
                 textShowBoolean = {true}
+                text = {password}
+                setter = {setPassword}
             />
 
             </View> */}

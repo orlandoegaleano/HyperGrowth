@@ -9,11 +9,29 @@ Install Dependencies: Execute 'npm install' to install the necessary dependencie
 Start the Application: Run 'npm start' to launch the application.
 
 
+THINGS TO INSTALL
+
+    At root directory:
+
+        npm install @react-native-async-storage/async-storage --legacy-peer-deps
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 HOW TO RUN SERVER
+    once in HyperGrowth directory, type <cd track-server> without <>
 
-    npm run dev
+    and then type <npm install>
 
+    finally to run, type <npm run dev>
+
+HOW TO RUN NGROK
+    if windows
+
+        .\ngrok http <your port number>
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 
 

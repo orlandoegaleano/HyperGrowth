@@ -97,6 +97,7 @@ const SignUpScreen = () => {
             </SignInButton> */}
 
             <TouchableOpacity
+                style = {styles.signUpButton}
                 //onPress = {() => {props.navigation.navigate("Home")}}
                 onPress = {() => {signUp({email, password})}}
             >
@@ -159,11 +160,18 @@ const styles = StyleSheet.create ({
         alignItems: 'center'
     },
 
+    signUpButton: {
+        borderWidth: 1,
+        borderColor: 'black',
+        marginHorizontal: 140
+    },
+
     signUpText: {
-        fontSize: 20,
+        fontSize: 25,
         color: 'red',
         marginTop: 10,
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingBottom: 10
     },
 
     errorMessage: {

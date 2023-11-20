@@ -11,7 +11,9 @@ const InputBox = (props) => {
                 autoCapitalize = 'none'
                 autoCorrect = {false}
                 placeholder = {props.backGroundText}
+                //value = {props.text}
                 value = {userInput}
+                //onChangeText = {(newText) => props.setter(newText)}
                 onChangeText = {(newText) => {setUserInput(newText)}}
             />
         </View>
