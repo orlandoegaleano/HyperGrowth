@@ -1,8 +1,9 @@
 import React from 'react';
 import { withNavigation } from 'react-navigation';
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+const LOGO = '../../assets/logo.png';
 
 
 
@@ -12,8 +13,13 @@ const NavBar = ({navigation}) => {
         <TouchableOpacity onPress={() => {navigation.navigate('Home')}}>
             <Entypo name='home' size={40} color='#000'/>
         </TouchableOpacity>
-        {/*This is where our logo will go, Bitcoin logo is just a placeholder for now*/}
-            <Ionicons name='logo-bitcoin' size={40} color='#000'/>
+
+  
+        <Image 
+          style = {styles.image}
+          source = {require(LOGO)}
+        />
+
         <TouchableOpacity onPress={() => {navigation.navigate('Help')}}>
             <Entypo name='help-with-circle' size={40} color='#000'/>
         </TouchableOpacity>        
@@ -31,6 +37,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
+  },
+  image: {
+    width: 40,
+    height: 40,
   },
 });
 

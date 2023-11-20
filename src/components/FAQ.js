@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-//FAQ receives props for questions, toggleCollapse function, and styles
 const FAQ = ({ questions, toggleCollapse, styles }) => {
   return (
     <View>
@@ -11,7 +10,7 @@ const FAQ = ({ questions, toggleCollapse, styles }) => {
             <Text style={styles.question}>{item.question}</Text>
           </TouchableOpacity>
           {!item.isCollapsed ? (
-            <Text style={styles.dropdown}>{item.answer}</Text>
+            <Text style={styles.answer}>{item.answer}</Text>
           ) : null}
         </View>
       ))}
@@ -20,3 +19,4 @@ const FAQ = ({ questions, toggleCollapse, styles }) => {
 };
 
 export default FAQ;
+

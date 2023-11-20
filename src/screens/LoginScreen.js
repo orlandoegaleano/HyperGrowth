@@ -5,7 +5,7 @@ import InputBox from '../components/InputBox';
 import {Context as AuthContext} from '../context/AuthContext'
 //import SignInButton from '../components/SignInButton';
 
-const LOGO = '../../assets/PngItem_588695.png';
+const LOGO = '../../assets/logo.png';
 const APP_NAME = "HyperGrowth";
 const LOG_IN = 'login';
 const NO_ACCOUNT_MSG = "No Account?"

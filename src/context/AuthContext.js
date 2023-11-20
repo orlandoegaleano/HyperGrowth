@@ -39,7 +39,7 @@ const signUp = (dispatch) => {
 
 const clearErrorMessage = (dispatch) => {
     return () => {
-        disptach({type: 'clear_error_message'})
+        dispatch({type: 'clear_error_message'})
     }
 }
 

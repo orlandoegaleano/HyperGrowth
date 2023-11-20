@@ -12,6 +12,7 @@ import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import { Provider as MesocycleProvider } from './src/context/MesocycleContext';
 import {Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from "./src/navigationRef";
+import { Provider as DayProvider } from './src/context/DayContext';
 
 const navigator = createStackNavigator(
   {
@@ -38,9 +39,11 @@ const App = createAppContainer(navigator);
 export default () => {
   return (
     <MesocycleProvider>
-      <AuthProvider>
-        <App ref = {(navigator) => {setNavigator(navigator)}}/>
-      </AuthProvider>
+      <DayProvider>
+        <AuthProvider>
+          <App ref = {(navigator) => {setNavigator(navigator)}}/>
+        </AuthProvider>
+      </DayProvider>
     </MesocycleProvider>
   );
 };

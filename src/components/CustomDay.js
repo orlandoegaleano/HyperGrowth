@@ -1,35 +1,35 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import ExercisePickerPair from './ExercisePickerPair';
-import { Context as MesocycleContext } from '../context/MesocycleContext';
+import { Context as DayContext } from '../context/DayContext';
 
-const CustomDay = ({ id }) => {
-    const { updateDay } = useContext(MesocycleContext);
+const CustomDay = ({ title, id }) => {
+    const { updateDay } = useContext(DayContext);
     const [selectedMuscleGroups, setSelectedMuscleGroups] = useState([{}]);
 
     const addExercisePair = () => {
         const updatedMuscleGroups = [...selectedMuscleGroups, {}];
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     const removeExercisePair = (indexToRemove) => {
         const updatedMuscleGroups = selectedMuscleGroups.filter((_, index) => index !== indexToRemove);
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     const handleUpdate = (index, key, value) => {
         const updatedMuscleGroups = [...selectedMuscleGroups];
         updatedMuscleGroups[index][key] = value;
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.dayHeader}>
-                <Text style={styles.dayTitle}>Day {id}</Text>
+                <Text style={styles.dayTitle}>{title}</Text>
             </View>
             {selectedMuscleGroups.map((muscleGroup, index) => (
                 <View key={index} style={styles.exerciseContainer}>
