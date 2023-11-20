@@ -10,6 +10,12 @@ Start the Application: Run 'npm start' to launch the application.
 
 
 
+HOW TO RUN SERVER
+
+    npm run dev
+
+
+
 
 
 

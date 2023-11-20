@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput} from 'react-native';
 
 const InputBox = (props) => {
-    const [userInput, setUserInput] = useState(props.backGroundText);
+    const [userInput, setUserInput] = useState("");
     return (
         <View style = {styles.container}>
             <TextInput
                 style = {styles.textInput}
+                secureTextEntry = {props.textShowBoolean}
                 autoCapitalize = 'none'
                 autoCorrect = {false}
+                placeholder = {props.backGroundText}
                 value = {userInput}
                 onChangeText = {(newText) => {setUserInput(newText)}}
             />
@@ -18,6 +20,8 @@ const InputBox = (props) => {
 
 const styles = StyleSheet.create ({
     container: {
+        alignItems: 'center',
+        //justifyContent: 'space-between'
         //paddingHorizontal: 50,
         // borderWidth: 1,
         // borderColor: 'red',
@@ -30,8 +34,11 @@ const styles = StyleSheet.create ({
         borderWidth: 1,
         marginBottom: 30,
         paddingVertical: 5,
-        paddingHorizontal: 20,
-        marginHorizontal: 50
+        //paddingHorizontal: 20,
+        //marginHorizontal: 50,
+        width: 350,
+        //justifyContent: 'center'
+
 
     }
 });
