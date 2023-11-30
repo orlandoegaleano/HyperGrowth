@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-nativ
 import NavBar from '../components/NavBar';
 import GeneralInformation from '../components/GeneralInformation';
 
-// For question and answer styling
 const FAQ = ({ questions, toggleCollapse, styles }) => {
   return questions.map((item, index) => (
     <View key={index}>
@@ -33,6 +32,15 @@ const HelpScreen = () => {
       isCollapsed: true },
     { question: 'Does the app offer video demonstrations or instructions for each exercise?', 
       answer: 'When selecting an exercise during your routine creation, you have the option to view a video demonstration of the exercise. Simply click on the play button adjacent to your chosen exercise. Once your routine is set and you can view your exercises along with their respective days and weeks, you’ll notice a play button next to each exercise for that day. This allows you to view the demonstration video at any time during your routine.', 
+      isCollapsed: true }, 
+    { question: 'Is it possible to select identical exercises for consecutive options in a program?',
+      answer: "While technically possible, it's strongly recommended to introduce variety with two distinct exercises. This strategy helps prevent rapid fatigue accumulation and could potentially enhance overall muscle development. However, if someone feels confident in enduring the repetition and has previously seen benefits from a consistent routine focusing on a specific muscle group, they might choose the same exercise multiple times within the week. This approach isn't advisable for most individuals seeking optimal muscle growth and balanced development.", 
+      isCollapsed: true }, 
+    { question: 'What does it mean to train "to failure" in fitness?',
+      answer: 'Training "to failure" refers to performing repetitions of an exercise until the muscles can no longer complete another full repetition with proper form. It involves pushing oneself to maximal effort within a set, aiming to exhaust the targeted muscles. While it can stimulate muscle growth and strength gains, consistently training to failure may increase fatigue and the risk of overuse injuries.', 
+      isCollapsed: true },
+    { question: 'What if I miss a day?',
+      answer: 'In case you miss a workout day, aim to redistribute the exercises across the remaining days of the week and incorporate the missed day into your next training session. If you happen to miss multiple consecutive days, consider engaging in lighter workouts for the remainder of that week and recommence your current routine in the following week.', 
       isCollapsed: true },
     // Add more questions, answers, and isCollapsed properties as needed
   ];
