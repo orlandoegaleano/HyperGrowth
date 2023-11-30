@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import {Context as AuthContext} from '../context/AuthContext'
+import { NavigationEvents } from 'react-navigation';
 //import SignInButton from '../components/SignInButton';
 
 import InputBox from '../components/InputBox';
@@ -13,7 +14,7 @@ const PASSWORD = "password";
 const SIGN_UP = "Sign Up";
 
 const SignUpScreen = () => {
-    const {state, signUp} = useContext(AuthContext);
+    const {state, signUp, clearErrorMessage} = useContext(AuthContext);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -22,6 +23,10 @@ const SignUpScreen = () => {
 
     return (
         <View style = {styles.container}>
+            <NavigationEvents
+                onWillFocus={() => {clearErrorMessage()}}
+            />
+
             <Text style = {styles.title}>{TITLE}</Text>
 
             <View style = {styles.rowContainer}>
@@ -99,7 +104,7 @@ const SignUpScreen = () => {
             <TouchableOpacity
                 style = {styles.signUpButton}
                 //onPress = {() => {props.navigation.navigate("Home")}}
-                onPress = {() => {signUp({email, password})}}
+                onPress = {() => {signUp({firstName, lastName, email, password})}}
             >
                 <Text style = {styles.signUpText}>{SIGN_UP}</Text>
             </TouchableOpacity>
