@@ -10,6 +10,12 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
     const [sets, setSets] = useState( Number(propSets || 2)  );
     const [repCounts, setrepCounts] = useState(Array.from({ length: propSets || 2 }, () => '1'));
     const { updateExerciseDetails } = useContext(MesocycleContext);
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const toggleCollapse = () => {
+        setIsCollapsed(!isCollapsed);
+    };
+
     
     // Using useEffect to re-render screen to reflect proper amount of rows
     // for rep input whenever sets changes such as the user manually adding or removing a set.
@@ -41,67 +47,75 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
 
             <View style={styles.header}>
                 <TouchableOpacity>
-                    <Entypo name='edit' size={20}/>
+                    <Entypo name='edit' size={30}/>
                 </TouchableOpacity>
                 <Text style={{fontWeight: 'bold', fontSize: 30}}>{muscle}</Text>
-                <TouchableOpacity>
-                    <Entypo name='minus' size={20}/>
+                <TouchableOpacity onPress={toggleCollapse} >
+                    <Entypo name={isCollapsed ? 'plus' : 'minus'} size={30}/>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.exercise}>
-                <Text style={{fontWeight: 'bold', fontSize: 20}}>{exercise}</Text>
-                <YouTubeButton
-                muscle={muscle}
-                exercise={exercise}                
-                />
-            </View>
 
-            <View style={styles.data}>
+            {!isCollapsed && (
 
                 <View>
-                    <Text style={styles.dataText}>Weight(lbs)</Text>
-                    <Picker
-                        selectedValue={selectedWeight}
-                        style={styles.picker}
-                        onValueChange={(itemValue) => setSelectedWeight(itemValue)}
-                    >
-                        {weightOptions.map(weight => (
-                            <Picker.Item key={weight} label={weight} value={weight} />
-                        ))}
-                    </Picker>
-                </View>
-                <View>
-                    <Text style={styles.dataText}>Reps - 3RIR</Text>
-                    {repCounts.map((reps, index) => (
-                    <View key={index}>
-                        <Picker
-                            selectedValue={reps}
-                            style={styles.picker}
-                            onValueChange={(itemValue) => handleRepChange(itemValue, index)}
-                        >
-                            {repOptions.map(option => (
-                                <Picker.Item key={option} label={option} value={option} />
+
+                    <View style={styles.exercise}>
+                        <Text style={{fontWeight: 'bold', fontSize: 20}}>{exercise}</Text>
+                        <YouTubeButton
+                        muscle={muscle}
+                        exercise={exercise}                
+                        />
+                    </View>  
+
+                    <View style={styles.data}>
+
+                        <View>
+                            <Text style={styles.dataText}>Weight(lbs)</Text>
+                            <Picker
+                                selectedValue={selectedWeight}
+                                style={styles.picker}
+                                onValueChange={(itemValue) => setSelectedWeight(itemValue)}
+                            >
+                                {weightOptions.map(weight => (
+                                    <Picker.Item key={weight} label={weight} value={weight} />
+                                ))}
+                            </Picker>
+                        </View>
+                        <View>
+                            <Text style={styles.dataText}>Reps - 3RIR</Text>
+                            {repCounts.map((reps, index) => (
+                            <View key={index}>
+                                <Picker
+                                    selectedValue={reps}
+                                    style={styles.picker}
+                                    onValueChange={(itemValue) => handleRepChange(itemValue, index)}
+                                >
+                                    {repOptions.map(option => (
+                                        <Picker.Item key={option} label={option} value={option} />
+                                    ))}
+                                </Picker>
+                            </View>
                             ))}
-                        </Picker>
+                        </View>
+                        <View>
+                            <Text style={styles.dataText}>Previous</Text>
+                            {previousRepCounts ? 
+                                previousRepCounts.map((reps, index) => (
+                                    <Text key={index}>{reps}</Text>
+                                ))
+                                :
+                                null
+                            }
+                        </View>
                     </View>
-                    ))}
-                </View>
-                <View>
-                    <Text style={styles.dataText}>Previous</Text>
-                    {previousRepCounts ? 
-                        previousRepCounts.map((reps, index) => (
-                            <Text key={index}>{reps}</Text>
-                        ))
-                        :
-                        null
-                    }
-                </View>
-            </View>
 
-            <View>
-                <Button title="Complete Exercise" onPress={handleSaveExerciseDetails}/>
-            </View>
+                    <View>
+                        <Button title="Complete Exercise" onPress={handleSaveExerciseDetails}/>
+                    </View>
+                </View>
+            )}
+            
 
         </View>
     );

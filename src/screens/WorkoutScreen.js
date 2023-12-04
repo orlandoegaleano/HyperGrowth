@@ -80,14 +80,15 @@ const styles = StyleSheet.create({
   },
   weekHeader: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 30,
     marginTop: 10,
-    marginHorizontal: 50,
+    marginHorizontal: 25,
   },
   dayHeader: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 25,
     marginTop: 5,
+    alignSelf: 'center',
   },
   scrollView: {
     flex: 1, 
