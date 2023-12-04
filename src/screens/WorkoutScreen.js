@@ -22,7 +22,10 @@ const WorkoutScreen = () => {
 
   return (
     <View style={styles.container}>
-      <NavBar/>
+      <View>
+        <NavBar/>
+      </View>
+      
       <View style={styles.weekNavigation}>
         <TouchableOpacity onPress={() => handleWeekChange('prev')}>
           <Ionicons name="arrow-back-circle" size={30} color={currentWeekIndex === 0 ? "gray" : "black"} />
@@ -74,8 +77,6 @@ const WorkoutScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   weekHeader: {
     fontWeight: 'bold',
