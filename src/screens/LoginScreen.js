@@ -1,9 +1,7 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import InputBox from '../components/InputBox';
-import {Context as AuthContext} from '../context/AuthContext'
-//import SignInButton from '../components/SignInButton';
+import { Context as AuthContext } from '../context/AuthContext';
 
 const LOGO = '../../assets/logo.png';
 const APP_NAME = "HyperGrowth";
@@ -12,104 +10,72 @@ const NO_ACCOUNT_MSG = "No Account?"
 const SIGN_UP_BUTTON_TITLE = "Sign Up!"
 const EMAIL = "email";
 const PASSWORD = "password";
-//const ERROR_MSG_TEXT = <Text style = {styles.errorMessage}> {state.errorMessage}</Text>;
 
 const LoginScreen = (props) => {
-    const {state, signIn, clearErrorMessage} = useContext(AuthContext);
+    const { state, signIn, clearErrorMessage } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    let ERROR_MSG_TEXT = <Text style = {styles.errorMessage}> {state.errorMessage}</Text>;
 
     return (
-        <View style = {styles.container}>
+        <View style={styles.container}>
             <NavigationEvents
-                onWillFocus={() => {clearErrorMessage()}}
+                onWillFocus={() => { clearErrorMessage() }}
             />
 
-            
-            <Image 
-                style = {styles.image}
-                source = {require(LOGO)}
+            <Image
+                style={styles.image}
+                source={require(LOGO)}
             />
 
-            <Text style = {styles.appNameText}> {APP_NAME}</Text>
+            <Text style={styles.appNameText}> {APP_NAME}</Text>
 
-            <View style = {styles.textInputContainer}>
+            <View style={styles.textInputContainer}>
                 <TextInput
-                    style = {styles.textInput}
-                    autoCapitalize = 'none'
-                    autoCorrect = {false}
-                    placeholder = {EMAIL}
-                    value= {email}
-                    onChangeText = {(newText) => {setEmail(newText)}}
+                    style={styles.textInput}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    placeholder={EMAIL}
+                    value={email}
+                    onChangeText={(newText) => { setEmail(newText) }}
                 />
 
                 <TextInput
-                    style = {styles.textInput}
-                    secureTextEntry = {true}
-                    autoCapitalize = 'none'
-                    autoCorrect = {false}
-                    placeholder = {PASSWORD}
-                    value = {password}
-                    onChangeText = {(newText) => {setPassword(newText)}}
+                    style={styles.textInput}
+                    secureTextEntry={true}
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    placeholder={PASSWORD}
+                    value={password}
+                    onChangeText={(newText) => { setPassword(newText) }}
                 />
             </View>
 
-            
+            {state.errorMessage ? <Text style={styles.errorText}> {state.errorMessage}</Text> : null}
 
-            {/* <View style = {styles.inputBoxStyle}>
-            <InputBox
-                backGroundText = 'email'
-                textShowBoolean = {false}
-                text = {email}
-                setter = {setEmail}
-            />
-
-            <InputBox
-                backGroundText = 'password'
-                textShowBoolean = {true}
-                text = {password}
-                setter = {setPassword}
-            />
-
-            </View> */}
-
-
-            {/* <SignInButton
-                title = {LOG_IN}
-                onSubmit={({email, password}) => signIn({email, password})}
-            >
-
-            </SignInButton> */}
-
-            {state.errorMessage ? <Text style = {styles.errorText}>{ERROR_MSG_TEXT}</Text> : null}
-
-            <View style = {styles.loginButtonContainer}>
+            <View style={styles.loginButtonContainer}>
                 <TouchableOpacity
-                    style = {styles.loginButton}
-                    //onPress = {() => {props.navigation.navigate("Home")}}
-                    onPress = {() => {signIn({email, password})}}
+                    style={styles.loginButton}
+                    onPress={() => { signIn({ email, password }) }}
                 >
-                    <Text style = {styles.loginButtonTitle}>{LOG_IN}</Text>
+                    <Text style={styles.loginButtonTitle}>{LOG_IN}</Text>
                 </TouchableOpacity>
             </View>
 
-            <Text style = {styles.noAccountText}>{NO_ACCOUNT_MSG}</Text>
+            <Text style={styles.noAccountText}>{NO_ACCOUNT_MSG}</Text>
 
             <TouchableOpacity
-                onPress = {() => {props.navigation.navigate("SignUp")}}
+                onPress={() => { props.navigation.navigate("SignUp") }}
             >
-                <Text style = {styles.signUpText}>{SIGN_UP_BUTTON_TITLE}</Text>
+                <Text style={styles.signUpText}>{SIGN_UP_BUTTON_TITLE}</Text>
             </TouchableOpacity>
-            
 
         </View>
     )
 };
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     image: {
@@ -118,21 +84,21 @@ const styles = StyleSheet.create ({
         alignItems: 'center',
         marginLeft: 167,
         marginTop: 20,
-        marginBottom: 40
+        marginBottom: 40,
     },
 
     appNameText: {
         fontSize: 50,
         textAlign: 'center',
-        marginBottom: 70
+        marginBottom: 70,
     },
 
     loginButtonContainer: {
-        paddingHorizontal: 120
+        paddingHorizontal: 120,
     },
 
     textInputContainer: {
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     textInput: {
@@ -142,16 +108,12 @@ const styles = StyleSheet.create ({
         borderWidth: 1,
         marginBottom: 30,
         paddingVertical: 10,
-        //paddingHorizontal: 20,
-        //marginHorizontal: 50,
         width: 350,
-        //justifyContent: 'center'
     },
 
     loginButton: {
         borderWidth: 1,
         borderColor: 'black',
-        //paddingVertical: 10
     },
 
     loginButtonTitle: {
@@ -163,27 +125,22 @@ const styles = StyleSheet.create ({
     noAccountText: {
         fontSize: 20,
         textAlign: 'center',
-        marginTop: 40
+        marginTop: 40,
     },
 
     signUpText: {
         fontSize: 20,
         color: 'red',
         marginTop: 10,
-        textAlign: 'center'
+        textAlign: 'center',
     },
 
     errorText: {
         color: 'red',
         textAlign: 'center',
         marginBottom: 10,
-        fontSize: 20
-    }
-
-    // inputBoxStyle: {
-    //     alignItems: 'center'
-    // }
-
+        fontSize: 20,
+    },
 });
 
 export default LoginScreen;

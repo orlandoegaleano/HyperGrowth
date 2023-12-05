@@ -1,46 +1,48 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, View, FlatList, Button, TouchableOpacity } from 'react-native';
+//ExerciseDisplay.js
+import React, { useState, useContext } from 'react';
+import { Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import YouTubeButton from './YouTubeButton';
-import { Picker } from '@react-native-picker/picker'; 
+import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 
-const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts}) => {
-    const [selectedWeight, setSelectedWeight] = useState( (propWeight || '5').toString() );
-    const [sets, setSets] = useState( Number(propSets || 2)  );
-    const [repCounts, setrepCounts] = useState(Array.from({ length: propSets || 2 }, () => '1'));
-    const { updateExerciseDetails } = useContext(MesocycleContext);
+const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts }) => {
+    const [selectedWeight, setSelectedWeight] = useState((propWeight || '5').toString());
+    const [sets, setSets] = useState(Number(propSets || 2));
+    const [repCounts, setRepCounts] = useState(Array.from({ length: sets }, () => '1'));
+    const { state, updateMesocycle } = useContext(MesocycleContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
 
-    const toggleCollapse = () => {
-        setIsCollapsed(!isCollapsed);
-    };
-
-    
-    // Using useEffect to re-render screen to reflect proper amount of rows
-    // for rep input whenever sets changes such as the user manually adding or removing a set.
-    // useEffect(() => {
-    //     setrepCounts(Array.from({ length: propSets }, () => '1'));
-    // }, [propSets]);
-
-
-    // Populating the Picker options
-    const weightOptions = Array.from({ length: (300 - 5) / 5 + 1 }, (_, i) => (5 * i).toString());
-    const repOptions = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
+    const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
     const handleRepChange = (itemValue, setIndex) => {
-        const newrepCounts = [...repCounts];
-        newrepCounts[setIndex] = itemValue;
-        setrepCounts(newrepCounts);
+        const newRepCounts = [...repCounts];
+        newRepCounts[setIndex] = itemValue;
+        setRepCounts(newRepCounts);
     };
 
     const handleSaveExerciseDetails = () => {
-        updateExerciseDetails(weekIndex, dayTitle, exercise, {
-          weight: selectedWeight,
-          sets: sets,
-          repCounts: repCounts,
-        });
-      };
+        const mesocycleIndex = state.findIndex(m => m._id === mesocycleId);
+        if (mesocycleIndex === -1) {
+            console.error('Mesocycle not found');
+            return;
+        }
+
+        // Create a deep copy of the mesocycle to avoid mutating the state directly
+        const updatedMesocycle = JSON.parse(JSON.stringify(state[mesocycleIndex]));
+        
+        // Update the exercise details in the copied mesocycle object
+        const week = updatedMesocycle.weeks[weekIndex];
+        const day = week.days.find(d => d.title === dayTitle);
+        const muscleGroup = day.muscleGroups.find(mg => mg.exercise === exercise);
+
+        muscleGroup.weight = selectedWeight;
+        muscleGroup.sets = sets;
+        muscleGroup.repCounts = repCounts.map(Number);
+
+        // Now call the updated updateMesocycle function with the new data
+        updateMesocycle(mesocycleId, updatedMesocycle);
+    };
 
     return (
         <View style={styles.container}>

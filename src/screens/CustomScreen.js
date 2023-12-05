@@ -1,3 +1,4 @@
+//CustomScreen.js
 import React, { useContext } from 'react';
 import { View, FlatList, Button, StyleSheet, Alert } from 'react-native';  
 import CustomDay from '../components/CustomDay';
@@ -50,7 +51,7 @@ const CustomScreen = ({ navigation }) => {
                 />
                 <Button 
                   title="Save Mesocycle" 
-                  onPress={() => {generateMesocycle(state); navigation.navigate("Workout")}}
+                  onPress={() => {generateMesocycle(state); navigation.navigate("Home")}}
                 />
             </View>   
         </View>

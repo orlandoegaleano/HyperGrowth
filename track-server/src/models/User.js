@@ -1,3 +1,4 @@
+//User model
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -20,7 +21,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  mesocycles: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Mesocycle'
+  }]
 });
 
 userSchema.pre('save', function(next) {
