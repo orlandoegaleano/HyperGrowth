@@ -68,7 +68,7 @@ const generateMesocycle = dispatch => async initialWeek => {
                 muscle: group.muscle,     
                 name: group.exercise,
                 weight: 5,
-                sets: 1,
+                sets: 2,
                 repCounts: [],
                 
             })),

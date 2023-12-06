@@ -57,10 +57,7 @@ const WorkoutScreen = ({ navigation }) => {
                   weekIndex={currentWeekIndex}
                   dayTitle={day.title}
                   muscle={group.muscle}
-                  exercise={group.name} 
-                  propWeight={group.weight} 
-                  propSets={group.sets} 
-                  //previousRepCounts={previousRepCounts} 
+                  exerciseName={group.name} 
                 />
               );
             })}
