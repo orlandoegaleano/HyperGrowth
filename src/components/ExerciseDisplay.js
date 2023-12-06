@@ -46,6 +46,7 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).repCounts = repCounts.map(Number);
           
         updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex));
+        toggleCollapse();
     };
 
     return (
