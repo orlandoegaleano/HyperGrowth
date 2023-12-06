@@ -1,6 +1,7 @@
 //MesoCycleContext.js
 import createDataContext from './createDataContext';
 import axiosServer from '../api/axiosServer';
+import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
 
 const mesocycleReducer = (state, action) => {
     switch (action.type) {
@@ -64,18 +65,17 @@ const generateMesocycle = dispatch => async initialWeek => {
             ...day,
             id: week > 1 ? Math.floor(Math.random() * 9999) : day.id,
             muscleGroups: day.muscleGroups.map((group) => ({
-                muscle: group.muscle,
-                exercises: [{
-                    name: group.exercise,
-                    link: group.link,
-                    weight: week * 5,
-                    sets: 2 + week,
-                    repCounts: [],
-                }],
+                muscle: group.muscle,     
+                name: group.exercise,
+                weight: 5,
+                sets: 1,
+                repCounts: [],
+                
             })),
         }));
+
         mesocycle.weeks.push({ days: weekRoutine });
-    }
+    };
 
     try {
         const response = await axiosServer.post('/mesocycles', mesocycle);

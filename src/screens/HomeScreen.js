@@ -5,7 +5,7 @@ import { Context as MesocycleContext } from '../context/MesocycleContext';
 import NavBar from '../components/NavBar';
 import MesocycleList from '../components/MesocycleList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios'; // Import axios directly
+import axios from 'axios'; 
 import axiosServer from '../api/axiosServer';
 
 const YOUR_MESOCYCLE = "Your Mesocycles";
@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
   const cancelTokenSource = useRef(null);
 
   useEffect(() => {
-    cancelTokenSource.current = axios.CancelToken.source(); // Use axios.CancelToken.source here
+    cancelTokenSource.current = axios.CancelToken.source();
 
     const fetchMesocycles = async () => {
       try {
@@ -30,13 +30,13 @@ const HomeScreen = ({ navigation }) => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            cancelToken: cancelTokenSource.current.token, // Pass the cancel token to the request
+            cancelToken: cancelTokenSource.current.token,
           });
           setMesocycles(response.data);
         }
         setLoading(false);
       } catch (error) {
-        if (axios.isCancel(error)) { // Use axios.isCancel here
+        if (axios.isCancel(error)) { // Component unmounted or user signed out.
           console.log('Request canceled:', error.message);
         } else {
           console.error('Error fetching mesocycles:', error);

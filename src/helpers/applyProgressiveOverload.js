@@ -1,35 +1,36 @@
-const applyProgressiveOverload = (currentWeekRoutine, previousWeekRoutine) => {
-    // Iterating over each day in the week
-    currentWeekRoutine.forEach((day, index) => {
+const applyProgressiveOverload = (mesocycle, startWeekIndex) => {
 
-        const previousWeekDay = previousWeekRoutine[index];
+    const updatedMesocycle = JSON.parse(JSON.stringify(mesocycle));
+    //console.log("Copied mesocycle being modified: ", JSON.stringify(updatedMesocycle, null, 2));  
+
+    for (let weekIndex = startWeekIndex; weekIndex < updatedMesocycle.weeks.length; weekIndex++) {
+        
+        if(weekIndex > startWeekIndex){
+
+            updatedMesocycle.weeks[weekIndex].days.forEach((day, dayIndex) => {
+
+                day.muscleGroups.forEach((muscleGroup, groupIndex) => {
+
+                    const previousWeekMuscleGroup = updatedMesocycle.weeks[weekIndex - 1].days[dayIndex].muscleGroups[groupIndex];
+                    muscleGroup.weight = calculateNewWeight(previousWeekMuscleGroup.weight);
+                    muscleGroup.sets = calculateNewSets(previousWeekMuscleGroup.sets);                   
+          
+                });
+            });
+        }
+
+    }
+    //console.log("updatedMesocycle being retrned: ", JSON.stringify(updatedMesocycle, null, 2));
+    return updatedMesocycle;
+  };
   
-        // Iterating over each exercise of the day
-        // Each "group" in the array muscleGroups contains props: muscle, exercise, weight, and sets
-        day.muscleGroups.forEach(group => {
-
-            const previousExercise = previousWeekDay.muscleGroups.find(prevWeekGroup => prevWeekGroup.exercise === group.exercise);
-
-            // Implementing logic to calculate changes to weight or sets for progressive overloading
-            if (previousExercise) {
-    
-            group.weight = calculateNewWeight(previousExercise.weight);
-            group.sets = calculateNewSets(previousExercise.sets);
-            }
-      });
-    });
-  
-    return currentWeekRoutine;
-};  
-
-const calculateNewWeight = (previousWeight) => {
+  const calculateNewWeight = (previousWeight) => { 
     return Number(previousWeight) + 5;
+  };
+  
+  const calculateNewSets = (previousSets) => {
+    return previousSets + 1;
+  };
 
-};
-
-const calculateNewSets = (previousSets) => {
-    return Number(previousSets) + 1;
-
-};
-
-export default applyProgressiveOverload
+export default applyProgressiveOverload;
+  

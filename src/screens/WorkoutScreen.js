@@ -11,7 +11,7 @@ const screenWidth = Dimensions.get('window').width;
 const WorkoutScreen = ({ navigation }) => {
   // Retrieve the mesocycle passed in navigation params
   const mesocycle = navigation.state.params;
-  console.log("Received mesocycle:", JSON.stringify(mesocycle, null, 2));
+  //console.log("Received mesocycle:", JSON.stringify(mesocycle, null, 2));
 
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
 
@@ -57,7 +57,7 @@ const WorkoutScreen = ({ navigation }) => {
                   weekIndex={currentWeekIndex}
                   dayTitle={day.title}
                   muscle={group.muscle}
-                  exercise={group.exercise} 
+                  exercise={group.name} 
                   propWeight={group.weight} 
                   propSets={group.sets} 
                   //previousRepCounts={previousRepCounts} 

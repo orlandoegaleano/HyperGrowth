@@ -14,16 +14,13 @@ const mesocycleSchema = new mongoose.Schema({
           id: Number,
           muscleGroups: [
             {
-              muscle: String,
-              exercises: [
-                {
-                  name: String,
-                  link: String,
-                  weight: Number,
-                  sets: Number,
-                  repCounts: [Number],
-                },
-              ],
+              muscle: String,              
+              name: String,
+              link: String,
+              weight: Number,
+              sets: Number,
+              repCounts: [Number],
+                              
             },
           ],
         },

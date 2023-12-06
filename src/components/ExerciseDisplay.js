@@ -5,6 +5,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import YouTubeButton from './YouTubeButton';
 import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
+import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
 
 const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts }) => {
     const [selectedWeight, setSelectedWeight] = useState((propWeight || '5').toString());
@@ -12,6 +13,10 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exercise, p
     const [repCounts, setRepCounts] = useState(Array.from({ length: sets }, () => '1'));
     const { state, updateMesocycle } = useContext(MesocycleContext);
     const [isCollapsed, setIsCollapsed] = useState(false);
+
+    // Populating the Picker options
+    const weightOptions = Array.from({ length: (300 - 5) / 5 + 1 }, (_, i) => (5 * i).toString());
+    const repOptions = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
 
     const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
@@ -27,20 +32,16 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exercise, p
             console.error('Mesocycle not found');
             return;
         }
-
-        // Create a deep copy of the mesocycle to avoid mutating the state directly
+         
         const updatedMesocycle = JSON.parse(JSON.stringify(state[mesocycleIndex]));
+
+        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).weight = selectedWeight;
+        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).sets = sets;
+        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).repCounts = repCounts.map(Number);
         
-        // Update the exercise details in the copied mesocycle object
-        const week = updatedMesocycle.weeks[weekIndex];
-        const day = week.days.find(d => d.title === dayTitle);
-        const muscleGroup = day.muscleGroups.find(mg => mg.exercise === exercise);
-
-        muscleGroup.weight = selectedWeight;
-        muscleGroup.sets = sets;
-        muscleGroup.repCounts = repCounts.map(Number);
-
-        // Now call the updated updateMesocycle function with the new data
+        applyProgressiveOverload(updatedMesocycle, weekIndex);
+        //console.log("Updated Mesocycle being sent: ", JSON.stringify(updatedMesocycle, null, 2));
+  
         updateMesocycle(mesocycleId, updatedMesocycle);
     };
 
