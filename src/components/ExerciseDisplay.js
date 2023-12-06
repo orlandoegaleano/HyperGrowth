@@ -38,11 +38,8 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exercise, p
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).weight = selectedWeight;
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).sets = sets;
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exercise).repCounts = repCounts.map(Number);
-        
-        applyProgressiveOverload(updatedMesocycle, weekIndex);
-        //console.log("Updated Mesocycle being sent: ", JSON.stringify(updatedMesocycle, null, 2));
-  
-        updateMesocycle(mesocycleId, updatedMesocycle);
+          
+        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex));
     };
 
     return (
