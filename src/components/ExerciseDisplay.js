@@ -82,15 +82,23 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
 
                         <View>
                             <Text style={styles.dataText}>Weight(lbs)</Text>
-                            <Picker
-                                selectedValue={selectedWeight}
-                                style={styles.picker}
-                                onValueChange={(itemValue) => setSelectedWeight(itemValue)}
-                            >
-                                {weightOptions.map(option => (
-                                    <Picker.Item key={option} label={option} value={option} />
-                                ))}
-                            </Picker>
+                            {
+                                weekIndex === 0 ? 
+                                    
+                                <Picker
+                                    selectedValue={selectedWeight}
+                                    style={styles.picker}
+                                    onValueChange={(itemValue) => setSelectedWeight(itemValue)}
+                                >
+                                    {weightOptions.map(option => (
+                                        <Picker.Item key={option} label={option} value={option} />
+                                    ))}
+                                </Picker>
+                                : 
+
+                                <Text style={styles.weightText}>{selectedWeight} lbs</Text>
+                                
+                            }
                         </View>
                         <View>
                             <Text style={styles.dataText}>Reps - 3RIR</Text>
@@ -112,7 +120,7 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
                             <Text style={styles.dataText}>Previous</Text>
                             {previousRepCounts ? 
                                 previousRepCounts.map((reps, index) => (
-                                    <Text key={index}>{reps}</Text>
+                                    <Text style={styles.previousText} key={index}>{reps}</Text>
                                 ))
                                 :
                                 null
@@ -134,8 +142,9 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
-        borderColor: 'red',
+        borderBottom: 1,
+        //borderLeft: 1,
+        //borderColor: 'red',
     },
     header: {
         flexDirection: 'row',
@@ -160,6 +169,16 @@ const styles = StyleSheet.create({
     dataText: {
         marginHorizontal: 5,  
         fontSize: 20,
+    },
+    weightText: {
+        fontSize: 20,
+        marginTop: 15,
+        textAlign: 'center',
+    },
+    previousText: {
+        fontSize: 20,
+        marginTop: 15,
+        textAlign: 'center',
     },
 });
 
