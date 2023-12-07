@@ -17,7 +17,10 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
 
     const [selectedWeight, setSelectedWeight] = useState(currentExercise.weight.toString());
     const [sets, setSets] = useState(Number(currentExercise.sets) || 2);
-    const [repCounts, setRepCounts] = useState(Array.from({ length: sets }, () => '1'));
+    const [repCounts, setRepCounts] = useState(
+                                        currentExercise.repCounts && currentExercise.repCounts.length === currentExercise.sets 
+                                        ? currentExercise.repCounts.map(String)
+                                        : Array.from({ length: sets }, () => '1'));
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     // Populating the Picker options
@@ -44,8 +47,8 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).weight = selectedWeight;
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).sets = sets;
         updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).repCounts = repCounts.map(Number);
-          
-        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex));
+
+        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex, dayTitle, exerciseName));
         toggleCollapse();
     };
 
@@ -84,8 +87,8 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
                                 style={styles.picker}
                                 onValueChange={(itemValue) => setSelectedWeight(itemValue)}
                             >
-                                {weightOptions.map(weight => (
-                                    <Picker.Item key={weight} label={weight} value={weight} />
+                                {weightOptions.map(option => (
+                                    <Picker.Item key={option} label={option} value={option} />
                                 ))}
                             </Picker>
                         </View>

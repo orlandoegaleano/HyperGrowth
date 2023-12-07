@@ -1,4 +1,4 @@
-Prerequisites: Ensure that Node.js and Node Package Manager (NPM) are installed.
+Prerequisites: Ensure that Node.js, Node Package Manager (NPM), and ngrok are installed.
 
 Clone the Repository: If you haven't already, clone the repository to your local machine.
 
@@ -9,14 +9,6 @@ Install Dependencies: Execute 'npm install' to install the necessary dependencie
 Start the Application: Run 'npm start' to launch the application.
 
 
-THINGS TO INSTALL
-
-    At root directory:
-
-        npm install @react-native-async-storage/async-storage --legacy-peer-deps
-
-
----------------------------------------------------------------------------------------------------------------------------------------------
 
 HOW TO RUN SERVER
     once in HyperGrowth directory, type <cd track-server> without <>

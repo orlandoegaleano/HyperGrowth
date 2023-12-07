@@ -9,10 +9,9 @@ import findPreviousExerciseData from '../helpers/findPreviousExerciseData';
 const screenWidth = Dimensions.get('window').width;
 
 const WorkoutScreen = ({ navigation }) => {
-  // Retrieve the mesocycle passed in navigation params
+
   const mesocycle = navigation.state.params;
   //console.log("Received mesocycle:", JSON.stringify(mesocycle, null, 2));
-
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
 
   const handleWeekChange = (direction) => {
@@ -42,14 +41,24 @@ const WorkoutScreen = ({ navigation }) => {
       <FlatList
         data={mesocycle.weeks[currentWeekIndex].days}
         renderItem={({ item: day, index: dayIndex }) => (
+
           <ScrollView style={styles.scrollView} key={dayIndex}>
+
             <Text style={styles.dayHeader}>{day.title}</Text>
-            {day.muscleGroups.map((group) => {
-              // let previousRepCounts = null;
-              // if (currentWeekIndex > 0) {
-              //   const previousExerciseData = findPreviousExerciseData(mesocycle, currentWeekIndex, day.title, group.exercise);
-              //   previousRepCounts = previousExerciseData ? previousExerciseData.repCounts : [];
-              // }              
+
+            {day.muscleGroups.map((group, groupIndex) => {
+
+              let previousRepCounts = null;
+              if (currentWeekIndex > 0) {
+
+                const previousWeekDay = mesocycle.weeks[currentWeekIndex - 1].days.find(d => d.title === day.title);
+                const previousGroup = previousWeekDay.muscleGroups[groupIndex];      
+
+                if (previousGroup && previousGroup.repCounts) {
+                  previousRepCounts = previousGroup.repCounts;
+                }
+              }
+                            
               return (
                 <ExerciseDisplay
                   key={group._id}
@@ -57,7 +66,8 @@ const WorkoutScreen = ({ navigation }) => {
                   weekIndex={currentWeekIndex}
                   dayTitle={day.title}
                   muscle={group.muscle}
-                  exerciseName={group.name} 
+                  exerciseName={group.name}
+                  previousRepCounts={previousRepCounts} 
                 />
               );
             })}
