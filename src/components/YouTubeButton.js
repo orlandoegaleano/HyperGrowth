@@ -34,7 +34,7 @@ const YouTubeButton = ({ muscle, exercise }) => {
         <View>
             {/* Display the 'youtube' icon from the 'Entypo' icon set.*/}
             <TouchableOpacity style={{ flex: 1 }} onPress={handlePress}>
-                <Entypo name='youtube' size={50} color='#000' />
+                <Entypo name='youtube' size={50} color='#FF0000' />
             </TouchableOpacity>
 
             {/* Conditional rendering: If 'showVideo' is true, display the 'Modal' component to play the YouTube video.*/}
@@ -45,6 +45,13 @@ const YouTubeButton = ({ muscle, exercise }) => {
                     visible={showVideo}
                 >
                     <View style={styles.modalView}>
+
+                        <View>
+                            {/*Displaying the 'x' icon in the top right of the Modal*/}
+                            <TouchableOpacity style={styles.closeButton}onPress={() => setShowVideo(false)}>
+                                <Entypo name='cross' size={50} color='#FFFFFF' />
+                            </TouchableOpacity>
+                        </View>
                         {/* The 'YoutubePlayer' component plays the YouTube video.*/}
                         <YoutubePlayer
                             height={300}
@@ -56,10 +63,7 @@ const YouTubeButton = ({ muscle, exercise }) => {
                                 if (event === "ended") setShowVideo(false);
                             }}
                         />
-                        {/*Displaying the 'x' icon in the top right of the Modal*/}
-                        <TouchableOpacity style={styles.closeButton} onPress={() => setShowVideo(false)}>
-                            <Entypo name='cross' size={50} color='#000' />
-                        </TouchableOpacity>
+
                     </View>
                 </Modal>
             )}
@@ -72,12 +76,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.5)'  // Semi-transparent black background
+        backgroundColor: 'rgba(0,0,0,0.8)'  
     },
     closeButton: {
-        position: 'absolute',   // Absolute positioning to place it over the modal
-        top: 10,
-        right: 10,
+        position: 'relative',   
+        bottom: 20,
+        left: 135,
     }
 });
 

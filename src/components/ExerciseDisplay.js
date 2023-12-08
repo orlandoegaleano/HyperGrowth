@@ -1,46 +1,71 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, View, FlatList, Button, TouchableOpacity } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import YouTubeButton from './YouTubeButton';
-import { Picker } from '@react-native-picker/picker'; 
+import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
+import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
 
-const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, propSets, previousRepCounts}) => {
-    const [selectedWeight, setSelectedWeight] = useState( (propWeight || '5').toString() );
-    const [sets, setSets] = useState( Number(propSets || 2)  );
-    const [repCounts, setrepCounts] = useState(Array.from({ length: propSets || 2 }, () => '1'));
-    const { updateExerciseDetails } = useContext(MesocycleContext);
+
+const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseName }) => {
+    const { state, updateMesocycle } = useContext(MesocycleContext);
+
+    const currentMesocycle = state.find(m => m._id === mesocycleId);
+    const currentDay = currentMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle);
+    const currentExercise = currentDay.muscleGroups.find(mg => mg.name === exerciseName);
+
+
+    let previousRepCounts = null;
+    if (weekIndex > 0) {
+
+    const previousWeekDay = currentMesocycle.weeks[weekIndex - 1].days.find(d => d.title === dayTitle);
+    const previousExercise = previousWeekDay.muscleGroups.find(mg => mg.name === exerciseName);      
+
+    if (previousExercise && previousExercise.repCounts) {
+        previousRepCounts = previousExercise.repCounts;
+    }
+    }
+
+    const [selectedWeight, setSelectedWeight] = useState(currentExercise.weight.toString());
+    const [sets, setSets] = useState(Number(currentExercise.sets) || 2);
+    const [repCounts, setRepCounts] = useState(
+                                        currentExercise.repCounts && currentExercise.repCounts.length === currentExercise.sets 
+                                        ? currentExercise.repCounts.map(String)
+                                        : Array.from({ length: sets }, () => '1'));
     const [isCollapsed, setIsCollapsed] = useState(false);
-
-    const toggleCollapse = () => {
-        setIsCollapsed(!isCollapsed);
-    };
-
-    
-    // Using useEffect to re-render screen to reflect proper amount of rows
-    // for rep input whenever sets changes such as the user manually adding or removing a set.
-    // useEffect(() => {
-    //     setrepCounts(Array.from({ length: propSets }, () => '1'));
-    // }, [propSets]);
-
 
     // Populating the Picker options
     const weightOptions = Array.from({ length: (300 - 5) / 5 + 1 }, (_, i) => (5 * i).toString());
     const repOptions = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
 
+    const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
     const handleRepChange = (itemValue, setIndex) => {
-        const newrepCounts = [...repCounts];
-        newrepCounts[setIndex] = itemValue;
-        setrepCounts(newrepCounts);
+        const newRepCounts = [...repCounts];
+        newRepCounts[setIndex] = itemValue;
+        setRepCounts(newRepCounts);
     };
 
     const handleSaveExerciseDetails = () => {
-        updateExerciseDetails(weekIndex, dayTitle, exercise, {
-          weight: selectedWeight,
-          sets: sets,
-          repCounts: repCounts,
-        });
-      };
+        const mesocycleIndex = state.findIndex(m => m._id === mesocycleId);
+        if (mesocycleIndex === -1) {
+            console.error('Mesocycle not found');
+            return;
+        }
+         
+        const updatedMesocycle = JSON.parse(JSON.stringify(state[mesocycleIndex]));
+
+        const targetMuscleGroup = updatedMesocycle.weeks[weekIndex].days
+                                    .find(d => d.title === dayTitle).muscleGroups
+                                        .find(mg => mg.name === exerciseName);
+      
+        targetMuscleGroup.weight = selectedWeight;
+        targetMuscleGroup.sets = sets;
+        targetMuscleGroup.repCounts = repCounts.map(Number);
+      
+        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex, dayTitle, exerciseName));
+        toggleCollapse();
+    };
 
     return (
         <View style={styles.container}>
@@ -61,10 +86,10 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
                 <View>
 
                     <View style={styles.exercise}>
-                        <Text style={{fontWeight: 'bold', fontSize: 20}}>{exercise}</Text>
+                        <Text style={{fontWeight: 'bold', fontSize: 20}}>{exerciseName}</Text>
                         <YouTubeButton
                         muscle={muscle}
-                        exercise={exercise}                
+                        exercise={exerciseName}                
                         />
                     </View>  
 
@@ -72,15 +97,23 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
 
                         <View>
                             <Text style={styles.dataText}>Weight(lbs)</Text>
-                            <Picker
-                                selectedValue={selectedWeight}
-                                style={styles.picker}
-                                onValueChange={(itemValue) => setSelectedWeight(itemValue)}
-                            >
-                                {weightOptions.map(weight => (
-                                    <Picker.Item key={weight} label={weight} value={weight} />
-                                ))}
-                            </Picker>
+                            {
+                                weekIndex === 0 ? 
+                                    
+                                <Picker
+                                    selectedValue={selectedWeight}
+                                    style={styles.picker}
+                                    onValueChange={(itemValue) => setSelectedWeight(itemValue)}
+                                >
+                                    {weightOptions.map(option => (
+                                        <Picker.Item key={option} label={option} value={option} />
+                                    ))}
+                                </Picker>
+                                : 
+
+                                <Text style={styles.weightText}>{selectedWeight} lbs</Text>
+                                
+                            }
                         </View>
                         <View>
                             <Text style={styles.dataText}>Reps - 3RIR</Text>
@@ -102,7 +135,7 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
                             <Text style={styles.dataText}>Previous</Text>
                             {previousRepCounts ? 
                                 previousRepCounts.map((reps, index) => (
-                                    <Text key={index}>{reps}</Text>
+                                    <Text style={styles.previousText} key={index}>{reps}</Text>
                                 ))
                                 :
                                 null
@@ -124,8 +157,9 @@ const ExerciseDisplay = ({weekIndex, dayTitle, muscle, exercise, propWeight, pro
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
-        borderColor: 'red',
+        borderBottom: 1,
+        //borderLeft: 1,
+        //borderColor: 'red',
     },
     header: {
         flexDirection: 'row',
@@ -150,6 +184,16 @@ const styles = StyleSheet.create({
     dataText: {
         marginHorizontal: 5,  
         fontSize: 20,
+    },
+    weightText: {
+        fontSize: 20,
+        marginTop: 15,
+        textAlign: 'center',
+    },
+    previousText: {
+        fontSize: 20,
+        marginTop: 15,
+        textAlign: 'center',
     },
 });
 

@@ -4,13 +4,12 @@ import { Picker } from '@react-native-picker/picker';
 import { exercises, muscleGroups } from './exercises';
 import YouTubeButton from './YouTubeButton'; 
 
-// Defining the ExercisePickerPair component.
+
 const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
     return (
-        // A View container to wrap everything.
+
         <View key={index} style={{borderWidth: 1, borderColor: 'red',}}>
             
-            {/* The first Picker component to select muscle groups.*/}
             <Picker
                 selectedValue={selectedMuscleGroup.muscle} // This sets the default value for the Picker to the currently selected muscle.
                 onValueChange={(itemValue) => { // A function that's called when a user selects a different muscle group.
@@ -30,10 +29,9 @@ const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
                 ))}
             </Picker>
             
-            {/* A View container to wrap the second Picker and the YouTubeButton.*/}
+   
             <View style={{ flexDirection: 'row', alignItems: 'center', marginRight: 5 }}>
                 
-                {/* The second Picker component to select exercises based on the selected muscle group.*/}
                 <Picker
                     style={{ flex: 9 }} // Giving it a flex value so it occupies 90% of the space in its container.
                     selectedValue={selectedMuscleGroup.exercise} // This sets the default value for the Picker to the currently selected exercise.
@@ -51,7 +49,7 @@ const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
                     ))}
                 </Picker>
                 
-                {/* YouTubeButton component to link to approprite video */}
+
                 <YouTubeButton
                     muscle={selectedMuscleGroup.muscle}
                     exercise={selectedMuscleGroup.exercise}

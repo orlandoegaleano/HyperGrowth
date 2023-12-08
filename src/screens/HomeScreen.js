@@ -1,67 +1,123 @@
-import React, {useContext} from 'react';
-import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native';
-import RoutineButtons from '../components/RoutineButtons';
-import {Context as AuthContext} from '../context/AuthContext'
-//import { withNavigation } from 'react-navigation';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import { Text, StyleSheet, View, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { Context as AuthContext } from '../context/AuthContext';
+import { Context as MesocycleContext } from '../context/MesocycleContext';
 import NavBar from '../components/NavBar';
+import MesocycleList from '../components/MesocycleList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'; 
+import axiosServer from '../api/axiosServer';
 
-const YOUR_ROUTINE = "Your Routines";
+const YOUR_MESOCYCLE = "Your Mesocycles";
 const SIGN_OUT_TEXT = "Sign Out";
 
-const HomeScreen = ({navigation}) => {
-  const {signOut} = useContext(AuthContext);
+const HomeScreen = ({ navigation }) => {
+  const { signOut } = useContext(AuthContext);
+  const { state, setMesocycles, resetMesocycles, deleteMesocycle } = useContext(MesocycleContext);
+  const [loading, setLoading] = useState(true);
+  const { state: authState } = useContext(AuthContext);
 
-  return(
-    <View>
-      <NavBar/>
+  const cancelTokenSource = useRef(null);
+
+  useEffect(() => {
+    cancelTokenSource.current = axios.CancelToken.source();
+
+    const fetchMesocycles = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token) {
+          const response = await axiosServer.get('/mesocycles', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            cancelToken: cancelTokenSource.current.token,
+          });
+          setMesocycles(response.data);
+        }
+        setLoading(false);
+      } catch (error) {
+        if (axios.isCancel(error)) { 
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Error fetching mesocycles:', error);
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchMesocycles();
+
+    return () => {
+      cancelTokenSource.current && cancelTokenSource.current.cancel('Component unmounted.');
+    };
+  }, [authState.token]);
+
+  const handleSignOut = async () => {
+    cancelTokenSource.current && cancelTokenSource.current.cancel('User signed out.');
+    await signOut(resetMesocycles);
+  };
+
+  const handleMesocycleSelect = (mesocycle) => {
+    navigation.navigate('Workout', mesocycle);
+  };
+
+  return (
+    <View style={{ flex: 1 }}> 
+      <NavBar />
       <Text style={styles.text}>Welcome User</Text>
-      <Text style={styles.yourRoutineText}>{YOUR_ROUTINE}</Text>
+      <Text style={styles.yourRoutineText}>{YOUR_MESOCYCLE}</Text>
 
-      <RoutineButtons
-        title = "Beginner"
-        navigationText = "Workout"
-      >
+      {loading ? (
+        <Text>Loading Mesocycles...</Text>
+      ) : (
+        <ScrollView style={{ flex: 1 }}>
+          <MesocycleList 
+            mesocycles={state} 
+            onMesocycleSelect={handleMesocycleSelect}
+            onDeleteMesocycle={deleteMesocycle} 
+          />
+        </ScrollView>
+      )}
 
-      </RoutineButtons>
-      <Button
-        title={'Add a Routine'}
-        onPress={() => {navigation.navigate('AddRoutine')}}
-      />
+      <View style={styles.buttonContainer}> 
+        <Button
+          title={'Add a Routine'}
+          onPress={() => navigation.navigate('AddRoutine')}
+        />
 
-      <TouchableOpacity
-        style = {styles.signOutContainer}
-        onPress={() => {signOut()}}
-      >
-        <Text style = {styles.signOutText}>{SIGN_OUT_TEXT}</Text>
-        
-      </TouchableOpacity>
-
+        <TouchableOpacity
+          style={styles.signOutContainer}
+          onPress={handleSignOut}
+        >
+          <Text style={styles.signOutText}>{SIGN_OUT_TEXT}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
   text: {
     fontSize: 40,
     textAlign: 'center',
-    marginVertical: 20
+    marginVertical: 20,
   },
-
   yourRoutineText: {
     fontSize: 30,
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
-
-  signOutContainer: {  //might need to be fixed for when new routine buttons are added
-    marginTop: 350
+  buttonContainer: {
+    padding: 10,
   },
-
+  signOutContainer: {
+    margin: 15,
+  },
   signOutText: {
     fontSize: 15,
     textAlign: 'center',
-    color: 'red'
-  }
+    color: 'red',
+  },
 });
 
 export default HomeScreen;

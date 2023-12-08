@@ -27,7 +27,7 @@ const navigator = createStackNavigator(
     Workout: WorkoutScreen,
   },
   {
-    initialRouteName: "Custom",
+    initialRouteName: "ResolveAuth",
     defaultNavigationOptions: {
       title: "App",
     },

@@ -1,19 +1,21 @@
 require("./models/User");
-require("./models/Track");
+require("./models/Mesocycle");
+
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
-const trackRoutes = require("./routes/trackRoutes");
 const requireAuth = require("./middlewares/requireAuth");
+const mesocycleRoutes = require("./routes/mesocycleRoutes");
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(authRoutes);
-app.use(trackRoutes);
+app.use(mesocycleRoutes);
 
-const mongoUri = "mongodb+srv://villegaca:cluster0Password@cluster0.9cmq3om.mongodb.net/?retryWrites=true&w=majority";
+const mongoUri = "mongodb+srv://admin:admin@cluster0.aflaywn.mongodb.net/?retryWrites=true&w=majority";
 
 if (!mongoUri) {
   throw new Error(

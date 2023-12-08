@@ -2,10 +2,7 @@ import React from 'react';
 import { withNavigation } from 'react-navigation';
 import { Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 const LOGO = '../../assets/logo.png';
-
-
 
 const NavBar = ({navigation}) => {  
   return(
