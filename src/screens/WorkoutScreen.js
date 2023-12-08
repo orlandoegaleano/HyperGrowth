@@ -1,10 +1,9 @@
-//WorkoutScreen.js
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FlatList, ScrollView, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import NavBar from '../components/NavBar';
 import ExerciseDisplay from '../components/ExerciseDisplay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import findPreviousExerciseData from '../helpers/findPreviousExerciseData';
+
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -46,18 +45,7 @@ const WorkoutScreen = ({ navigation }) => {
 
             <Text style={styles.dayHeader}>{day.title}</Text>
 
-            {day.muscleGroups.map((group, groupIndex) => {
-
-              let previousRepCounts = null;
-              if (currentWeekIndex > 0) {
-
-                const previousWeekDay = mesocycle.weeks[currentWeekIndex - 1].days.find(d => d.title === day.title);
-                const previousGroup = previousWeekDay.muscleGroups[groupIndex];      
-
-                if (previousGroup && previousGroup.repCounts) {
-                  previousRepCounts = previousGroup.repCounts;
-                }
-              }
+            {day.muscleGroups.map((group) => {
                             
               return (
                 <ExerciseDisplay
@@ -67,13 +55,12 @@ const WorkoutScreen = ({ navigation }) => {
                   dayTitle={day.title}
                   muscle={group.muscle}
                   exerciseName={group.name}
-                  previousRepCounts={previousRepCounts} 
                 />
               );
             })}
           </ScrollView>
         )}
-        keyExtractor={(item, index) => `day-${index}`}
+        keyExtractor={(item, index) => {item._id + index}}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}

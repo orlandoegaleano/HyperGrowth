@@ -9,7 +9,7 @@ const applyProgressiveOverload = (mesocycle) => {
                   : updatedMesocycle.weeks[0].days.find(d => d.title === day.title).muscleGroups.find(mg => mg.name === muscleGroup.name).weight;
 
               muscleGroup.weight = calculateNewWeight(baseWeight, weekIndex);
-              muscleGroup.sets = calculateNewSets(muscleGroup.sets, weekIndex);
+              muscleGroup.sets = calculateNewSets(muscleGroup.sets);
           });
       });
   }
@@ -37,8 +37,8 @@ const calculateNewWeight = (baseWeight, weekIndex) => {
   return Math.round(baseWeight * multiplier / 5) * 5;
 };
 
-const calculateNewSets = (initialSets, weekIndex) => {
-  return initialSets + weekIndex;
+const calculateNewSets = (initialSets) => {
+  return initialSets + 1;
 };
 
 

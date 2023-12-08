@@ -1,4 +1,3 @@
-//AuthContext.js
 import createDataContext from "./createDataContext";
 import { navigate } from '../navigationRef';
 import axiosServer from "../api/axiosServer";

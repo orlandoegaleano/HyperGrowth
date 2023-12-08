@@ -1,4 +1,3 @@
-//ExerciseDisplay.js
 import React, { useState, useContext } from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -7,13 +6,25 @@ import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
 import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
 
-const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseName, previousRepCounts }) => {
+
+const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseName }) => {
     const { state, updateMesocycle } = useContext(MesocycleContext);
 
-    // Find the current exercise details from the context
     const currentMesocycle = state.find(m => m._id === mesocycleId);
     const currentDay = currentMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle);
     const currentExercise = currentDay.muscleGroups.find(mg => mg.name === exerciseName);
+
+
+    let previousRepCounts = null;
+    if (weekIndex > 0) {
+
+    const previousWeekDay = currentMesocycle.weeks[weekIndex - 1].days.find(d => d.title === dayTitle);
+    const previousExercise = previousWeekDay.muscleGroups.find(mg => mg.name === exerciseName);      
+
+    if (previousExercise && previousExercise.repCounts) {
+        previousRepCounts = previousExercise.repCounts;
+    }
+    }
 
     const [selectedWeight, setSelectedWeight] = useState(currentExercise.weight.toString());
     const [sets, setSets] = useState(Number(currentExercise.sets) || 2);
@@ -44,10 +55,14 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
          
         const updatedMesocycle = JSON.parse(JSON.stringify(state[mesocycleIndex]));
 
-        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).weight = selectedWeight;
-        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).sets = sets;
-        updatedMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle).muscleGroups.find(mg => mg.name === exerciseName).repCounts = repCounts.map(Number);
-
+        const targetMuscleGroup = updatedMesocycle.weeks[weekIndex].days
+                                    .find(d => d.title === dayTitle).muscleGroups
+                                        .find(mg => mg.name === exerciseName);
+      
+        targetMuscleGroup.weight = selectedWeight;
+        targetMuscleGroup.sets = sets;
+        targetMuscleGroup.repCounts = repCounts.map(Number);
+      
         updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex, dayTitle, exerciseName));
         toggleCollapse();
     };

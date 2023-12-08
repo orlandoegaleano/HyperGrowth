@@ -1,4 +1,3 @@
-//MesoCycleContext.js
 import createDataContext from './createDataContext';
 import axiosServer from '../api/axiosServer';
 import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
@@ -22,7 +21,7 @@ const mesocycleReducer = (state, action) => {
     }
 };
 
-const setMesocycles = dispatch => mesocycles => {
+const setMesocycles = dispatch => (mesocycles) => {
     dispatch({ type: 'set_mesocycles', payload: mesocycles });
 };
 
@@ -30,7 +29,7 @@ const resetMesocycles = dispatch => () => {
     dispatch({ type: 'reset_mesocycles' });
 };
 
-const addMesocycle = dispatch => async mesocycle => {
+const addMesocycle = dispatch => async (mesocycle) => {
     try {
         const response = await axiosServer.post('/mesocycles', mesocycle);
         dispatch({ type: 'add_mesocycle', payload: response.data });
@@ -48,7 +47,7 @@ const updateMesocycle = dispatch => async (mesocycleId, updatedData) => {
     }
 };
 
-const deleteMesocycle = dispatch => async mesocycleId => {
+const deleteMesocycle = dispatch => async (mesocycleId) => {
     try {
         await axiosServer.delete(`/mesocycles/${mesocycleId}`);
         dispatch({ type: 'delete_mesocycle', payload: mesocycleId });
@@ -57,8 +56,8 @@ const deleteMesocycle = dispatch => async mesocycleId => {
     }
 };
 
-const generateMesocycle = dispatch => async initialWeek => {
-    let mesocycle = { weeks: [] };
+const generateMesocycle = dispatch => async (initialWeek, mesocycleTitle ) => {
+    let mesocycle = {mesocycleTitle, weeks: [] };
 
     for (let week = 1; week <= 6; week++) {
         let weekRoutine = initialWeek.map((day) => ({

@@ -1,4 +1,3 @@
-//index.js
 require("./models/User");
 require("./models/Mesocycle");
 

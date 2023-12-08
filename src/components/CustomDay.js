@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import ExercisePickerPair from './ExercisePickerPair';
 import { Context as DayContext } from '../context/DayContext';
 
@@ -21,6 +21,10 @@ const CustomDay = ({ title, id }) => {
 
     const handleUpdate = (index, key, value) => {
         const updatedMuscleGroups = [...selectedMuscleGroups];
+        if (key === 'muscle' && updatedMuscleGroups.some((mg, i) => i !== index && mg.muscle === value)) { 
+            Alert.alert("Duplicate Muscle Group", "To maximize recovery time and minimize injury risk, it's best to only train the same muscle group once per day.");
+            return;
+        }
         updatedMuscleGroups[index][key] = value;
         setSelectedMuscleGroups(updatedMuscleGroups);
         updateDay({ title, id, muscleGroups: updatedMuscleGroups });

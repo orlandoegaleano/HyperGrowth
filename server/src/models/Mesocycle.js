@@ -2,6 +2,8 @@
 const mongoose = require('mongoose');
 
 const mesocycleSchema = new mongoose.Schema({
+
+  mesocycleTitle: String, 
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

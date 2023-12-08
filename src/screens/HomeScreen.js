@@ -13,7 +13,7 @@ const SIGN_OUT_TEXT = "Sign Out";
 
 const HomeScreen = ({ navigation }) => {
   const { signOut } = useContext(AuthContext);
-  const { state, setMesocycles, resetMesocycles } = useContext(MesocycleContext);
+  const { state, setMesocycles, resetMesocycles, deleteMesocycle } = useContext(MesocycleContext);
   const [loading, setLoading] = useState(true);
   const { state: authState } = useContext(AuthContext);
 
@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
         }
         setLoading(false);
       } catch (error) {
-        if (axios.isCancel(error)) { // Component unmounted or user signed out.
+        if (axios.isCancel(error)) { 
           console.log('Request canceled:', error.message);
         } else {
           console.error('Error fetching mesocycles:', error);
@@ -71,7 +71,11 @@ const HomeScreen = ({ navigation }) => {
         <Text>Loading Mesocycles...</Text>
       ) : (
         <ScrollView style={{ flex: 1 }}>
-          <MesocycleList mesocycles={state} onMesocycleSelect={handleMesocycleSelect} />
+          <MesocycleList 
+            mesocycles={state} 
+            onMesocycleSelect={handleMesocycleSelect}
+            onDeleteMesocycle={deleteMesocycle} 
+          />
         </ScrollView>
       )}
 
