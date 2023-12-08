@@ -50,8 +50,10 @@ const HelpScreen = () => {
 
   // Function to toggle the collapse state of a FAQ item
   const toggleCollapse = (index) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].isCollapsed = !updatedQuestions[index].isCollapsed;
+    const updatedQuestions = questions.map((question, i) => ({
+      ...question,
+      isCollapsed: i === index ? !question.isCollapsed : true,
+    }));
     setQuestions(updatedQuestions);
   };
 
