@@ -15,6 +15,7 @@ Install Dependencies:
 Open 3 terminals, 1 for each of the following:
 
 HOW TO RUN SERVER
+
     Once in HyperGrowth directory, cd into 'server' directory
 
     Execute 'npm install'
@@ -24,6 +25,7 @@ HOW TO RUN SERVER
     Finally, execute 'npm run dev'
 
 HOW TO RUN NGROK
+
     Execute 'ngrok http 3000'
 
     Copy the 'Forwarding' URL provided from ngrok 
