@@ -2,9 +2,6 @@ import React, {useState, useContext} from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import {Context as AuthContext} from '../context/AuthContext'
 import { NavigationEvents } from 'react-navigation';
-//import SignInButton from '../components/SignInButton';
-
-import InputBox from '../components/InputBox';
 
 const TITLE = "Register";
 const FIRST_NAME = "First Name";
@@ -47,29 +44,8 @@ const SignUpScreen = () => {
                     value= {lastName}
                     onChangeText = {(newText) => {setLastName(newText)}}
                 />
-                {/* <InputBox
-                    style = {styles.InputBoxOne}
-                    backGroundText = "First Name"
-                    textShowBoolean = {false}
-                />
-
-                <InputBox
-                    style = {styles.InputBox2}
-                    backGroundText = "Last Name"
-                    textShowBoolean = {false}
-                />   */}
             </View>
 
-            {/* <View>
-                <InputBox
-                    backGroundText = "email"
-                    textShowBoolean = {false}
-                />
-                <InputBox
-                    backGroundText = "password"
-                    textShowBoolean = {true}
-                />
-            </View> */}
 
             <View style = {styles.textInputContainer}>
                 <TextInput
@@ -93,13 +69,6 @@ const SignUpScreen = () => {
             </View>
 
             {state.errorMessage ? <Text>{ERROR_MSG_TEXT}</Text> : null}
-
-            {/* <SignInButton
-                title = {SIGN_UP}
-                onSubmit={({email, password}) => signUp({email, password})}
-            >
-                
-            </SignInButton> */}
 
             <TouchableOpacity
                 style = {styles.signUpButton}

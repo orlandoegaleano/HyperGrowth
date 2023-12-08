@@ -16,8 +16,7 @@ const dayReducer = (state, action) => {
       default:
         return state;
     }
-  };
-  
+  };  
 
 const addDay = dispatch => {
     return (day) => {
@@ -37,30 +36,17 @@ const updateDay = dispatch => {
     };
 };
 
-//Initializing mock data for easier testing
 const initialState = [
         {
             title: "Day 1",
             id: Math.floor(Math.random() * 9999),
-            muscleGroups: [ 
-            // { muscle: 'Chest', exercise: 'Bench Press', weight: '100', sets: '2' },
-            // { muscle: 'Back', exercise: 'Normal Grip Pullup', weight: '150', sets: '2' },
-            ],
+            muscleGroups: [],
         },
-        // {
-        //     title: "Day 2",
-        //     id: Math.floor(Math.random() * 9999),
-        //     muscleGroups: [
-        //     { muscle: 'Glutes', exercise: 'Machine Glute Kickback', weight: '65', sets: '2' },
-        //     { muscle: 'Quads', exercise: 'Leg Press', weight: '120', sets: '2' },
-        //     ],
-        // },
 ];
 
 export const {Context, Provider} = createDataContext(
     dayReducer,
     { addDay: addDay, removeDay: removeDay, updateDay: updateDay, },
     initialState
-
 );
 

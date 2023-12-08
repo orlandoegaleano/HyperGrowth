@@ -1,35 +1,45 @@
-const applyProgressiveOverload = (currentWeekRoutine, previousWeekRoutine) => {
-    // Iterating over each day in the week
-    currentWeekRoutine.forEach((day, index) => {
+const applyProgressiveOverload = (mesocycle) => {
+  const updatedMesocycle = JSON.parse(JSON.stringify(mesocycle));
 
-        const previousWeekDay = previousWeekRoutine[index];
-  
-        // Iterating over each exercise of the day
-        // Each "group" in the array muscleGroups contains props: muscle, exercise, weight, and sets
-        day.muscleGroups.forEach(group => {
+  for (let weekIndex = 0; weekIndex < updatedMesocycle.weeks.length; weekIndex++) {
+      updatedMesocycle.weeks[weekIndex].days.forEach(day => {
+          day.muscleGroups.forEach(muscleGroup => {
+              const baseWeight = weekIndex === 0
+                  ? muscleGroup.weight
+                  : updatedMesocycle.weeks[0].days.find(d => d.title === day.title).muscleGroups.find(mg => mg.name === muscleGroup.name).weight;
 
-            const previousExercise = previousWeekDay.muscleGroups.find(prevWeekGroup => prevWeekGroup.exercise === group.exercise);
-
-            // Implementing logic to calculate changes to weight or sets for progressive overloading
-            if (previousExercise) {
-    
-            group.weight = calculateNewWeight(previousExercise.weight);
-            group.sets = calculateNewSets(previousExercise.sets);
-            }
+              muscleGroup.weight = calculateNewWeight(baseWeight, weekIndex);
+              muscleGroup.sets = calculateNewSets(muscleGroup.sets);
+          });
       });
-    });
-  
-    return currentWeekRoutine;
-};  
-
-const calculateNewWeight = (previousWeight) => {
-    return Number(previousWeight) + 5;
-
+  }
+  return updatedMesocycle;
 };
 
-const calculateNewSets = (previousSets) => {
-    return Number(previousSets) + 1;
-
+const calculateNewWeight = (baseWeight, weekIndex) => {
+  let multiplier;
+  switch (weekIndex) {
+      case 1:
+          multiplier = 1.025;
+          break;
+      case 2:
+          multiplier = 1.05;
+          break;
+      case 3:
+          multiplier = 1.075;
+          break;
+      case 4:
+          multiplier = 1.1;
+          break;
+      default:
+          multiplier = 1; 
+  }
+  return Math.round(baseWeight * multiplier / 5) * 5;
 };
 
-export default applyProgressiveOverload
+const calculateNewSets = (initialSets) => {
+  return initialSets + 1;
+};
+
+
+export default applyProgressiveOverload;

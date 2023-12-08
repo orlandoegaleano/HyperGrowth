@@ -6,7 +6,7 @@ const NonCustomScreen = () => {
   return(
     <View>
       <NavBar/>
-      <Text style={styles.text}>Hello NonCustomScreen</Text>
+      <Text style={styles.text}>Pre-made Workouts still need to be implemented</Text>
     </View>
   )
 };

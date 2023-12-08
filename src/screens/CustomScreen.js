@@ -1,18 +1,16 @@
-import React, { useContext } from 'react';
-import { View, FlatList, Button, StyleSheet, Alert } from 'react-native';  
+import React, { useContext, useState } from 'react';
+import { View, FlatList, Button, StyleSheet, TextInput, Modal, Text, TouchableOpacity } from 'react-native';  
 import CustomDay from '../components/CustomDay';
 import { Context as MesocycleContext } from '../context/MesocycleContext'; 
 import { Context as DayContext } from '../context/DayContext'; 
 
-
-const CustomScreen = ({ navigation }) => {    
-    // Use the context to get state and actions.
+const CustomScreen = ({ navigation }) => {
     const { state, addDay, removeDay } = useContext(DayContext);
-    const { generateMesocycle } = useContext(MesocycleContext)
-    
-    // Add a new day using the context action.
+    const { generateMesocycle } = useContext(MesocycleContext);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [mesocycleTitle, setMesocycleTitle] = useState('');
+
     const handleAddDay = () => {
-        // Create a new day with a unique id.
         const newDay = { 
           title: `Day ${state.length + 1}`, 
           id: Math.floor(Math.random() * 9999), 
@@ -21,11 +19,20 @@ const CustomScreen = ({ navigation }) => {
         addDay(newDay);
     };
 
-    // Remove a day using the context action.
     const handleRemoveDay = () => {
         if (state.length > 0) {
-            // Use the id of the last day for removal.
             removeDay(state[state.length - 1].id);
+        }
+    };
+
+    const handleSaveMesocycle = () => {
+        if (mesocycleTitle) {
+            generateMesocycle(state, mesocycleTitle);
+            setMesocycleTitle('');
+            setModalVisible(false);
+            navigation.navigate("Home");
+        } else {
+            alert('Please enter a title for the mesocycle.');
         }
     };
 
@@ -50,9 +57,36 @@ const CustomScreen = ({ navigation }) => {
                 />
                 <Button 
                   title="Save Mesocycle" 
-                  onPress={() => {generateMesocycle(state); navigation.navigate("Workout")}}
+                  onPress={() => setModalVisible(true)} 
                 />
-            </View>   
+            </View>  
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >
+                <TouchableOpacity
+                    style={styles.modalOverlay} 
+                    onPress={() => setModalVisible(false)} 
+                >
+                    <View style={styles.modalView}>
+                        <TextInput
+                            placeholder="Enter Mesocycle Title"
+                            onChangeText={(text) => setMesocycleTitle(text)}
+                            value={mesocycleTitle}
+                            style={styles.textInput}
+                        />
+                        <Button
+                            title="Save"
+                            onPress={handleSaveMesocycle}
+                        />
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         </View>
     );
 };
@@ -68,6 +102,24 @@ const styles = StyleSheet.create({
     marginBottom: 10, 
     marginTop: 5
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    width: 300,
+    padding: 20,
+    borderRadius: 5,
+    marginBottom: 10
+  },
+  textInput: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10
+  }
 });
 
 export default CustomScreen;
