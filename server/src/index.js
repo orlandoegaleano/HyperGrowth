@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(mesocycleRoutes);
 
-const mongoUri = "mongodb+srv://admin:admin@cluster0.aflaywn.mongodb.net/?retryWrites=true&w=majority";
+const mongoUri = "mongodb+srv://admin:gYapZM4OoeXImLHl@cluster0.aflaywn.mongodb.net/?retryWrites=true&w=majority";
 
 if (!mongoUri) {
   throw new Error(

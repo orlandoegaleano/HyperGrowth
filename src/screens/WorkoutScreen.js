@@ -128,16 +128,16 @@ const WorkoutScreen = ({ navigation }) => {
       </View>
 
       <FlatList
-        data={mesocycle.weeks[currentWeekIndex].days[currentDayIndex].muscleGroups}
-        renderItem={({ item: group }) => (
+        data={mesocycle.weeks[currentWeekIndex].days[currentDayIndex].exerciseDetails}
+        renderItem={({ item: details }) => (
 
           <ExerciseDisplay
-            key={group._id}
+            key={details._id}
             mesocycleId={mesocycle._id}
             weekIndex={currentWeekIndex}
             dayTitle={mesocycle.weeks[currentWeekIndex].days[currentDayIndex].title}
-            muscle={group.muscle}
-            exerciseName={group.name}
+            muscle={details.muscle}
+            exerciseName={details.name}
           />  
 
         )}

@@ -1,7 +1,7 @@
 import React from 'react'; 
 import { View, Button } from 'react-native'; 
 import { Picker } from '@react-native-picker/picker'; 
-import { exercises, muscleGroups } from './exercises';
+import { exercises, exerciseDetails } from './exercises';
 import YouTubeButton from './YouTubeButton'; 
 
 
@@ -20,8 +20,8 @@ const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
                 {/* Default Picker item prompting user to make a selection.*/}
                 <Picker.Item label="Please select a muscle group first" value={null} />
                 
-                {/* Mapping through the muscleGroups array to dynamically generate Picker items for each muscle group.*/}
-                {muscleGroups.map(group => (
+                {/* Mapping through the exerciseDetails array to dynamically generate Picker items for each muscle group.*/}
+                {exerciseDetails.map(group => (
                     // Each Picker.Item requires a unique 'key' for React's internal use.
                     // 'label' is what's displayed to the user and 'value' is the actual value that gets selected.
                     // In this case, 'group' is used for all three for simplicity since each muscle group has a unique name.

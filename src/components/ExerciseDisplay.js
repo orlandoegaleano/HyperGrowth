@@ -1,38 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Text, StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import YouTubeButton from './YouTubeButton';
 import { Picker } from '@react-native-picker/picker';
 import { Context as MesocycleContext } from '../context/MesocycleContext';
-import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
-
+import { applyProgressiveOverload, updateSetsBasedOnRatings } from '../helpers/applyProgressiveOverload';
+import findExerciseDetails from '../helpers/findExerciseDetails'; 
+import ExerciseRatings from './ExerciseRatings';  
 
 const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseName }) => {
     const { state, updateMesocycle } = useContext(MesocycleContext);
 
-    const currentMesocycle = state.find(m => m._id === mesocycleId);
-    const currentDay = currentMesocycle.weeks[weekIndex].days.find(d => d.title === dayTitle);
-    const currentExercise = currentDay.muscleGroups.find(mg => mg.name === exerciseName);
-
-
-    let previousRepCounts = null;
-    if (weekIndex > 0) {
-
-    const previousWeekDay = currentMesocycle.weeks[weekIndex - 1].days.find(d => d.title === dayTitle);
-    const previousExercise = previousWeekDay.muscleGroups.find(mg => mg.name === exerciseName);      
-
-    if (previousExercise && previousExercise.repCounts) {
-        previousRepCounts = previousExercise.repCounts;
-    }
-    }
+    const { currentExercise, previousExercise } = findExerciseDetails(state.find(m => m._id === mesocycleId), weekIndex, dayTitle, exerciseName);
+    const previousRepCounts = previousExercise ? previousExercise.repCounts : null;
 
     const [selectedWeight, setSelectedWeight] = useState(currentExercise.weight.toString());
-    const [sets, setSets] = useState(Number(currentExercise.sets) || 2);
+    const [sets, setSets] = useState(Number(currentExercise.sets));
     const [repCounts, setRepCounts] = useState(
                                         currentExercise.repCounts && currentExercise.repCounts.length === currentExercise.sets 
-                                        ? currentExercise.repCounts.map(String)
-                                        : Array.from({ length: sets }, () => '1'));
+                                            ? currentExercise.repCounts.map(String)
+                                            : Array.from({ length: sets }, () => '1'));
+
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isExerciseRatingsVisible, setIsExerciseRatingsVisible] = useState(false);
 
     // Populating the Picker options
     const weightOptions = Array.from({ length: (300 - 5) / 5 + 1 }, (_, i) => (5 * i).toString());
@@ -46,25 +36,40 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
         setRepCounts(newRepCounts);
     };
 
-    const handleSaveExerciseDetails = () => {
+    const handleSaveExerciseRatings = (sorenessRating, pumpRating) => {
+        handleSaveExerciseDetails(sorenessRating, pumpRating);
+    };    
+
+    const handleSaveExerciseDetails = (sorenessRating, pumpRating) => {
         const mesocycleIndex = state.findIndex(m => m._id === mesocycleId);
         if (mesocycleIndex === -1) {
             console.error('Mesocycle not found');
             return;
         }
-         
-        const updatedMesocycle = JSON.parse(JSON.stringify(state[mesocycleIndex]));
+
+        const updatedMesocycle = state[mesocycleIndex];
 
         const targetMuscleGroup = updatedMesocycle.weeks[weekIndex].days
-                                    .find(d => d.title === dayTitle).muscleGroups
-                                        .find(mg => mg.name === exerciseName);
-      
+                                    .find(d => d.title === dayTitle).exerciseDetails
+                                        .find(details => details.name === exerciseName);
+
         targetMuscleGroup.weight = selectedWeight;
-        targetMuscleGroup.sets = sets;
+
+        setSets(targetMuscleGroup.sets);
+
+        setRepCounts(
+            targetMuscleGroup.repCounts && targetMuscleGroup.repCounts.length === targetMuscleGroup.sets
+                ? targetMuscleGroup.repCounts.map(String)
+                : Array.from({ length: targetMuscleGroup.sets }, () => '1')
+        );
+
         targetMuscleGroup.repCounts = repCounts.map(Number);
-      
-        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle, weekIndex, dayTitle, exerciseName));
+        targetMuscleGroup.sorenessRating = sorenessRating;
+        targetMuscleGroup.pumpRating = pumpRating;
+
+        updateMesocycle(mesocycleId, applyProgressiveOverload(updatedMesocycle));
         toggleCollapse();
+  
     };
 
     return (
@@ -144,8 +149,13 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
                     </View>
 
                     <View>
-                        <Button title="Complete Exercise" onPress={handleSaveExerciseDetails}/>
+                        <Button title="Complete Exercise" onPress={() => setIsExerciseRatingsVisible(true)}/>
                     </View>
+                    <ExerciseRatings
+                        isVisible={isExerciseRatingsVisible}
+                        onClose={() => setIsExerciseRatingsVisible(false)}
+                        onSaveRatings={handleSaveExerciseRatings}
+                    />
                 </View>
             )}
             

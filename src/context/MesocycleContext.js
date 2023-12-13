@@ -63,12 +63,14 @@ const generateMesocycle = dispatch => async (initialWeek, mesocycleTitle ) => {
         let weekRoutine = initialWeek.map((day) => ({
             ...day,
             id: week > 1 ? Math.floor(Math.random() * 9999) : day.id,
-            muscleGroups: day.muscleGroups.map((group) => ({
-                muscle: group.muscle,     
-                name: group.exercise,
+            exerciseDetails: day.exerciseDetails.map((details) => ({
+                muscle: details.muscle,     
+                name: details.exercise,
                 weight: 5,
                 sets: 2,
                 repCounts: [],
+                // sorenessRating: 0,
+                // pumpRating: 0,
                 
             })),
         }));

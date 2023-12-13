@@ -98,6 +98,6 @@ const exercises = {
     ]
 };
 // List of all muscle groups based on the keys in the exercises object.
-const muscleGroups = Object.keys(exercises);
+const exerciseDetails = Object.keys(exercises);
 
-export { exercises, muscleGroups };
+export { exercises, exerciseDetails };

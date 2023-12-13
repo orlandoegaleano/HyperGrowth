@@ -10,24 +10,24 @@ const CustomDay = ({ title, id }) => {
     const addExercisePair = () => {
         const updatedMuscleGroups = [...selectedMuscleGroups, {}];
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, exerciseDetails: updatedMuscleGroups });
     };
 
     const removeExercisePair = (indexToRemove) => {
         const updatedMuscleGroups = selectedMuscleGroups.filter((_, index) => index !== indexToRemove);
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, exerciseDetails: updatedMuscleGroups });
     };
 
     const handleUpdate = (index, key, value) => {
         const updatedMuscleGroups = [...selectedMuscleGroups];
-        if (key === 'muscle' && updatedMuscleGroups.some((mg, i) => i !== index && mg.muscle === value)) { 
+        if (key === 'muscle' && updatedMuscleGroups.some((details, i) => i !== index && details.muscle === value)) { 
             Alert.alert("Duplicate Muscle Group", "To maximize recovery time and minimize injury risk, it's best to only train the same muscle group once per day.");
             return;
         }
         updatedMuscleGroups[index][key] = value;
         setSelectedMuscleGroups(updatedMuscleGroups);
-        updateDay({ title, id, muscleGroups: updatedMuscleGroups });
+        updateDay({ title, id, exerciseDetails: updatedMuscleGroups });
     };
 
     return (
@@ -35,11 +35,11 @@ const CustomDay = ({ title, id }) => {
             <View style={styles.dayHeader}>
                 <Text style={styles.dayTitle}>{title}</Text>
             </View>
-            {selectedMuscleGroups.map((muscleGroup, index) => (
+            {selectedMuscleGroups.map((exerciseDetails, index) => (
                 <View key={index} style={styles.exerciseContainer}>
                     <ExercisePickerPair
                         index={index}
-                        selectedMuscleGroup={muscleGroup}
+                        selectedMuscleGroup={exerciseDetails}
                         onUpdate={handleUpdate}
                     />
                     <Button

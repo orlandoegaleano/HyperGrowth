@@ -14,7 +14,7 @@ const CustomScreen = ({ navigation }) => {
         const newDay = { 
           title: `Day ${state.length + 1}`, 
           id: Math.floor(Math.random() * 9999), 
-          muscleGroups: [],  
+          exerciseDetails: [],  
         };
         addDay(newDay);
     };
