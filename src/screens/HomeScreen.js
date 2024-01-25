@@ -33,8 +33,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <NavBar />
-            <Text style={styles.text}>Welcome User</Text>
-            <Text style={styles.yourRoutineText}>{YOUR_MESOCYCLE}</Text>
+            <Text style={styles.yourMesocyclesText}>{YOUR_MESOCYCLE}</Text>
 
             {loading ? (
                 <Text>Loading Mesocycles...</Text>
@@ -64,10 +63,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 20,
     },
-    yourRoutineText: {
+    yourMesocyclesText: {
         fontSize: 30,
         textAlign: 'center',
-        marginBottom: 30,
+        margin: 30,
     },
     buttonContainer: {
         padding: 10,

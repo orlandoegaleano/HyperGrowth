@@ -11,7 +11,12 @@ import ExerciseRatings from './ExerciseRatings';
 const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseName }) => {
     const { state, updateMesocycle } = useContext(MesocycleContext);
 
-    const { currentExercise, previousExercise } = findExerciseDetails(state.find(m => m._id === mesocycleId), weekIndex, dayTitle, exerciseName);
+    let { currentExercise, previousExercise } = findExerciseDetails(state.find(m => m._id === mesocycleId), weekIndex, dayTitle, exerciseName);
+
+    if(weekIndex === 5){ 
+        previousExercise = findExerciseDetails(state.find(m => m._id === mesocycleId), 0, dayTitle, exerciseName).currentExercise;
+    };
+    
     const previousRepCounts = previousExercise ? previousExercise.repCounts : null;
 
     const [selectedWeight, setSelectedWeight] = useState(currentExercise.weight.toString());
@@ -29,6 +34,14 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
     const repOptions = Array.from({ length: 30 }, (_, i) => (i + 1).toString());
 
     const toggleCollapse = () => setIsCollapsed(!isCollapsed);
+
+    const getRepGoal = (weekIndex) => {
+        if(weekIndex < 2){ return "3 RIR";};
+        if(weekIndex < 4){return "2 RIR";};
+        if(weekIndex === 4){return "1 RIR";};
+        return "1/2 -->";
+
+    };
 
     const handleRepChange = (itemValue, setIndex) => {
         const newRepCounts = [...repCounts];
@@ -121,7 +134,7 @@ const ExerciseDisplay = ({ mesocycleId, weekIndex, dayTitle, muscle, exerciseNam
                             }
                         </View>
                         <View>
-                            <Text style={styles.dataText}>Reps - 3RIR</Text>
+                            <Text style={styles.dataText}>Reps - Goal: {getRepGoal(weekIndex)}</Text>
                             {repCounts.map((reps, index) => (
                             <View key={index}>
                                 <Picker
