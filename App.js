@@ -6,19 +6,12 @@ import CustomScreen from "./src/screens/CustomScreen";
 import NonCustomScreen from "./src/screens/NonCustomScreen";
 import HelpScreen from "./src/screens/HelpScreen";
 import WorkoutScreen from "./src/screens/WorkoutScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import SignUpScreen from "./src/screens/SignUpScreen";
-import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import { Provider as MesocycleProvider } from './src/context/MesocycleContext';
-import {Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from "./src/navigationRef";
 import { Provider as DayProvider } from './src/context/DayContext';
 
 const navigator = createStackNavigator(
   {
-    ResolveAuth: ResolveAuthScreen,
-    Login: LoginScreen,
-    SignUp: SignUpScreen,
     Home: HomeScreen,
     AddRoutine: AddRoutineScreen,
     Custom: CustomScreen,
@@ -27,7 +20,7 @@ const navigator = createStackNavigator(
     Workout: WorkoutScreen,
   },
   {
-    initialRouteName: "ResolveAuth",
+    initialRouteName: "Home",
     defaultNavigationOptions: {
       title: "App",
     },
@@ -40,9 +33,7 @@ export default () => {
   return (
     <MesocycleProvider>
       <DayProvider>
-        <AuthProvider>
           <App ref = {(navigator) => {setNavigator(navigator)}}/>
-        </AuthProvider>
       </DayProvider>
     </MesocycleProvider>
   );

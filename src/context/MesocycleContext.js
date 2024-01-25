@@ -1,6 +1,5 @@
 import createDataContext from './createDataContext';
-import axiosServer from '../api/axiosServer';
-import applyProgressiveOverload from '../helpers/applyProgressiveOverload';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const mesocycleReducer = (state, action) => {
     switch (action.type) {
@@ -21,69 +20,79 @@ const mesocycleReducer = (state, action) => {
     }
 };
 
-const setMesocycles = dispatch => (mesocycles) => {
+const saveMesocycles = async (mesocycles) => {
+    try {
+        await AsyncStorage.setItem('mesocycles', JSON.stringify(mesocycles));
+    } catch (error) {
+        console.error('Error saving mesocycles:', error);
+    }
+};
+
+const loadMesocycles = async () => {
+    try {
+        const mesocyclesString = await AsyncStorage.getItem('mesocycles');
+        return mesocyclesString ? JSON.parse(mesocyclesString) : [];
+    } catch (error) {
+        console.error('Error loading mesocycles:', error);
+        return [];
+    }
+};
+
+const setMesocycles = dispatch => async (mesocycles) => {
+    await saveMesocycles(mesocycles);
     dispatch({ type: 'set_mesocycles', payload: mesocycles });
 };
 
-const resetMesocycles = dispatch => () => {
+const resetMesocycles = dispatch => async () => {
+    await AsyncStorage.removeItem('mesocycles');
     dispatch({ type: 'reset_mesocycles' });
 };
 
 const addMesocycle = dispatch => async (mesocycle) => {
-    try {
-        const response = await axiosServer.post('/mesocycles', mesocycle);
-        dispatch({ type: 'add_mesocycle', payload: response.data });
-    } catch (error) {
-        console.error('Error adding mesocycle:', error);
-    }
+    const currentMesocycles = await loadMesocycles();
+    const updatedMesocycles = [...currentMesocycles, mesocycle];
+    await saveMesocycles(updatedMesocycles);
+    dispatch({ type: 'add_mesocycle', payload: mesocycle });
 };
 
 const updateMesocycle = dispatch => async (mesocycleId, updatedData) => {
-    try {
-        const response = await axiosServer.put(`/mesocycles/${mesocycleId}`, updatedData);
-        dispatch({ type: 'update_mesocycle', payload: response.data });
-    } catch (error) {
-        console.error('Error updating mesocycle:', error);
-    }
+    const currentMesocycles = await loadMesocycles();
+    const updatedMesocycles = currentMesocycles.map((meso) => 
+        meso._id === mesocycleId ? updatedData : meso
+    );
+    await saveMesocycles(updatedMesocycles);
+    dispatch({ type: 'update_mesocycle', payload: updatedData });
 };
 
 const deleteMesocycle = dispatch => async (mesocycleId) => {
-    try {
-        await axiosServer.delete(`/mesocycles/${mesocycleId}`);
-        dispatch({ type: 'delete_mesocycle', payload: mesocycleId });
-    } catch (error) {
-        console.error('Error deleting mesocycle:', error);
-    }
+    const currentMesocycles = await loadMesocycles();
+    const updatedMesocycles = currentMesocycles.filter((meso) => meso._id !== mesocycleId);
+    await saveMesocycles(updatedMesocycles);
+    dispatch({ type: 'delete_mesocycle', payload: mesocycleId });
 };
 
 const generateMesocycle = dispatch => async (initialWeek, mesocycleTitle ) => {
-    let mesocycle = {mesocycleTitle, weeks: [] };
+    let _id = Math.floor(Math.random() * 9999);
+    let mesocycle = {mesocycleTitle, weeks: [], _id };
 
     for (let week = 1; week <= 6; week++) {
         let weekRoutine = initialWeek.map((day) => ({
             ...day,
             id: week > 1 ? Math.floor(Math.random() * 9999) : day.id,
             exerciseDetails: day.exerciseDetails.map((details) => ({
+                _id: Math.floor(Math.random() * 99999).toString(),
                 muscle: details.muscle,     
                 name: details.exercise,
                 weight: 5,
                 sets: 2,
                 repCounts: [],
-                // sorenessRating: 0,
-                // pumpRating: 0,
-                
             })),
         }));
 
         mesocycle.weeks.push({ days: weekRoutine });
     };
 
-    try {
-        const response = await axiosServer.post('/mesocycles', mesocycle);
-        dispatch({ type: 'add_mesocycle', payload: response.data });
-    } catch (error) {
-        console.error('Error generating mesocycle:', error);
-    }
+    addMesocycle(dispatch)(mesocycle);
 };
 
 export const { Context, Provider } = createDataContext(
