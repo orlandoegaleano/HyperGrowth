@@ -24,5 +24,3 @@ HOW TO RUN APPLICATION
     Scan the QR code and load the app to your phone or press 'a' to open on your emulator
 
 
-
-Login Screen Icon obtained from 'https://www.pngitem.com/download/biRhbx_transparent-weights-png-weight-lifting-icon-png-png/'

@@ -1,5 +1,7 @@
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'react-native';
 import HomeScreen from "./src/screens/HomeScreen";
 import AddRoutineScreen from "./src/screens/AddRoutineScreen";
 import CustomScreen from "./src/screens/CustomScreen";
@@ -23,6 +25,7 @@ const navigator = createStackNavigator(
     initialRouteName: "Home",
     defaultNavigationOptions: {
       title: "App",
+      headerShown: false,
     },
   }
 );
@@ -31,10 +34,18 @@ const App = createAppContainer(navigator);
 
 export default () => {
   return (
-    <MesocycleProvider>
-      <DayProvider>
-          <App ref = {(navigator) => {setNavigator(navigator)}}/>
-      </DayProvider>
-    </MesocycleProvider>
+    <SafeAreaProvider>
+      <SafeAreaView style={{flex: 1}}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor="#FFFFFF"
+        />
+        <MesocycleProvider>
+          <DayProvider>
+              <App ref = {(navigator) => {setNavigator(navigator)}}/>
+          </DayProvider>
+        </MesocycleProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };

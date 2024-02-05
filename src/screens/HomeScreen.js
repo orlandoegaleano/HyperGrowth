@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const YOUR_MESOCYCLE = "Your Mesocycles";
 
 const HomeScreen = ({ navigation }) => {
-    const { state, setMesocycles, resetMesocycles, deleteMesocycle } = useContext(MesocycleContext);
+    const { state, setMesocycles, deleteMesocycle } = useContext(MesocycleContext);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -49,8 +49,8 @@ const HomeScreen = ({ navigation }) => {
 
             <View style={styles.buttonContainer}>
                 <Button
-                    title={'Add a Routine'}
-                    onPress={() => navigation.navigate('AddRoutine')}
+                    title={'Add a Mesocycle'}
+                    onPress={() => navigation.navigate('Custom')}
                 />
             </View>
         </View>

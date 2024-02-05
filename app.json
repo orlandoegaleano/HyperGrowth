@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "WorkoutApp",
-    "slug": "WorkoutApp",
+    "name": "HyperGrowth",
+    "slug": "hypergrowth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,17 +19,17 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.oegalean.WorkoutApp"
+      "package": "com.oegalean.hypergrowth"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     },
     "extra": {
       "eas": {
-        "projectId": "98a89f02-312b-4bcb-b667-2192734d1f68"
+        "projectId": "3e53d473-4c5d-4c3d-a46e-fd5f2869e0eb"
       }
     }
   }

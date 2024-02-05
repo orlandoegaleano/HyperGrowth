@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     borderBottomWidth: 1,
   },
   image: {
-    width: 40,
-    height: 40,
+    width: 65,
+    height: 65,
   },
 });
 

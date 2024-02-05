@@ -8,7 +8,7 @@ import YouTubeButton from './YouTubeButton';
 const ExercisePickerPair = ({ index, selectedMuscleGroup, onUpdate }) => {
     return (
 
-        <View key={index} style={{borderWidth: 1, borderColor: 'red',}}>
+        <View key={index} >
             
             <Picker
                 selectedValue={selectedMuscleGroup.muscle} // This sets the default value for the Picker to the currently selected muscle.

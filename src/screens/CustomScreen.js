@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { View, FlatList, Button, StyleSheet, TextInput, Modal, Text, TouchableOpacity } from 'react-native';  
-import CustomDay from '../components/CustomDay';
+import { View, FlatList, Button, StyleSheet, TextInput, Modal, Text, TouchableOpacity } from 'react-native';
+import {CustomDay, updateWarningDisplayed} from '../components/CustomDay';
+import NavBar from '../components/NavBar';
 import { Context as MesocycleContext } from '../context/MesocycleContext'; 
 import { Context as DayContext } from '../context/DayContext'; 
 
 const CustomScreen = ({ navigation }) => {
-    const { state, addDay, removeDay } = useContext(DayContext);
+    const { state, addDay, removeDay, resetDays } = useContext(DayContext);
     const { generateMesocycle } = useContext(MesocycleContext);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [mesocycleTitle, setMesocycleTitle] = useState('');
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ mesocycleTitle, setMesocycleTitle ] = useState('');
 
     const handleAddDay = () => {
         const newDay = { 
@@ -30,6 +31,8 @@ const CustomScreen = ({ navigation }) => {
             generateMesocycle(state, mesocycleTitle);
             setMesocycleTitle('');
             setModalVisible(false);
+            updateWarningDisplayed(false);
+            resetDays();
             navigation.navigate("Home");
         } else {
             alert('Please enter a title for the mesocycle.');
@@ -37,7 +40,8 @@ const CustomScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>          
+        <View style={styles.container}>
+            <NavBar />          
             <FlatList
                 style={styles.list} 
                 data={state} 

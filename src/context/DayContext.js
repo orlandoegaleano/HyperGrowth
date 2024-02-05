@@ -13,6 +13,8 @@ const dayReducer = (state, action) => {
           }
           return day;
         });
+      case 'reset_days':
+        return initialState;
       default:
         return state;
     }
@@ -36,6 +38,12 @@ const updateDay = dispatch => {
     };
 };
 
+const resetDays = dispatch => {
+    return () => {
+        dispatch({ type: 'reset_days' });
+    };
+};
+
 const initialState = [
         {
             title: "Day 1",
@@ -46,7 +54,7 @@ const initialState = [
 
 export const {Context, Provider} = createDataContext(
     dayReducer,
-    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, },
+    { addDay: addDay, removeDay: removeDay, updateDay: updateDay, resetDays: resetDays },
     initialState
 );
 
