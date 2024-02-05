@@ -12,6 +12,7 @@ const exercises = {
         { name: 'Deficit Push-Up', link: 'gmNlqsE3Onc' },
         { name: 'Narrow Grip Push-Up', link: 'Lz1aFtuNvEQ' },
         { name: 'Machine Chest Press', link: 'NwzUje3z0qY' },
+        { name: 'Machine Fly', link: 'FDay9wFe5uE' },
         { name: 'Smith Machine Bench Press', link: 'O5viuEPDXKY' },
         { name: 'Smith Machine Narrow Grip Bench Press', link: 'qf_FTh3QyYs' },
         { name: 'Incline Smith Machine Bench Press', link: '8urE8Z8AMQ4' },
@@ -54,7 +55,8 @@ const exercises = {
         { name: 'Machine Shoulder Press', link: 'WvLMauqrnK8' },
         { name: 'Smith Machine Shoulder Press', link: 'OLqZDUUD2b0' },
         { name: 'Dumbbell Front Raise', link: 'hRJ6tR5-if0' },
-        { name: 'Barbell Front Raise', link: '_ikCPws1mbE' }
+        { name: 'Barbell Front Raise', link: '_ikCPws1mbE' },
+        { name: 'Machine Reverse Fly', link: '5YK4bgzXDp0' }
     ],
     Triceps: [
         { name: 'Dip', link: '4LA1kF7yCGo' },
