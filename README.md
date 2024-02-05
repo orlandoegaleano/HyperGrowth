@@ -23,4 +23,6 @@ HOW TO RUN APPLICATION
 
     Scan the QR code and load the app to your phone or press 'a' to open on your emulator
 
+    Alternatively, you can download the included APK and install it directly to an android device or emulator
+
 
